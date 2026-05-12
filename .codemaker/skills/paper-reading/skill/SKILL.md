@@ -1,6 +1,15 @@
 ---
 name: paper-reading
+display_name: "Paper Reading"
 description: "Use when the user asks to research, read, ingest, or analyze a paper/article, or when organizing paper reading notes. Activates for: '研究下这篇文章', '帮我看看这篇论文', '帮我读下这篇论文', '增加下这篇文章', 'add this paper', 'read this paper', paper ingest, paper reading, paper analysis, 论文阅读, figure extraction from PDFs, or any task involving structured paper reading notes. If the user mentions a paper title, arXiv link, DOI, or drops a PDF for research purposes, use this skill."
+category: documentation
+tags:
+  - paper-reading
+  - research
+  - academic
+  - pdf-analysis
+version: 2.1.0
+status: published
 ---
 
 # Paper Reading — 论文阅读解读助手
@@ -98,6 +107,9 @@ last_updated: YYYY-MM-DD
 ## Related 论文解读
 - <related-slug-1> (<authors>, <year>, <venue>)
 - <related-slug-2> (<authors>, <year>, <venue>)
+
+## Topic 专题
+- <topic-slug>: <brief description of the sub-question>
 ```
 
 ## Operations
@@ -345,6 +357,43 @@ python scripts/paper_search.py \
 
 ---
 
+### Topic Extract (extract a sub-question into a focused document)
+
+When the human asks to extract/整理/提取 a specific sub-question from the paper's reading notes, follow these phases:
+
+**Trigger phrases:** "帮我整理一下XXX", "提取子问题：XXX", "整理关于XXX的内容", "extract topic on XXX"
+
+---
+
+**Phase 1 — Understand the question:**
+
+1. Confirm the sub-question scope with the human.
+2. Determine the topic slug (kebab-case, with `topic-` prefix): e.g., `topic-constraint-force-calc`.
+
+---
+
+**Phase 2 — Extract and synthesize:**
+
+1. Read all `type: source` reading notes in `wiki/`.
+2. Identify relevant sections — primarily from `## Architecture`, `## Evidence`, and `## Critical Analysis`.
+3. Extract and reorganize content around the sub-question's logical structure.
+4. Ensure every symbol used in derivations is explicitly defined.
+5. Build a coherent derivation chain, not a copy-paste collage.
+
+---
+
+**Phase 3 — Write topic document:**
+
+1. Create `wiki/topic-<slug>.md` using the `templates/topic.md` template. Fill in all 4 sections:
+   - `## 问题描述`: 1-3 sentences defining the sub-question
+   - `## 符号定义`: Line-by-line list of all symbols used (`- $symbol$：description`)
+   - `## 核心公式`: Summary of key result formulas with brief explanations, each citing source [slug, Eq.N/§N/p.N]
+   - `## 关键推导`: Step-by-step derivation, reorganized for the sub-question's logic, each key step citing source [slug, Eq.N/§N/p.N]
+
+2. Update `wiki/index.md`: Add the topic to the `## Topic 专题` section. Create the section if it doesn't exist.
+
+---
+
 ### Lint (health check)
 
 Check for consistency within a paper folder's `wiki/`:
@@ -365,6 +414,7 @@ When structural issues are detected during any operation:
 
 - **Wiki language**: Configured in `wiki/index.md` frontmatter as `wiki_language` (e.g., `en`, `zh-CN`, `zh-TW`, `ja`). All reading note body content MUST be written in the configured language. Language-invariant elements remain in English: YAML field names, section headings (`## Essence`, `## Factors`, etc.), formatting labels (`**Insight**:`, `*Prior*:`, etc.), kebab-case slugs, and tag names.
 - Page filenames use kebab-case slugs: `attention-is-all-you-need.md`
+- **Topic filenames** use `topic-` prefix: `topic-constraint-force-calc.md` — this distinguishes topic documents from source reading notes at a glance
 - All dates use ISO format: `2026-04-06`
 - Domain tags use kebab-case: `multibody-dynamics`
 - Standard markdown only — no Obsidian wikilinks (`[[...]]`), no `![[...]]` image embeds

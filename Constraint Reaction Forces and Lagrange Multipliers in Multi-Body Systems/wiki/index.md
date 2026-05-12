@@ -12,3 +12,6 @@ last_updated: 2026-05-12
 
 ## Related 论文解读
 - intermediate-dynamics-haug (Haug, 1992, Prentice Hall) — 笛卡尔坐标下的奠基性证明
+
+## Topic 专题
+- topic-constraint-force-lagrange-multiplier: 约束反力与 Lagrange 乘子的显式关系及一一对应条件
