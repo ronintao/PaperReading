@@ -1,0 +1,390 @@
+---
+name: paper-reading
+description: "Use when the user asks to research, read, ingest, or analyze a paper/article, or when organizing paper reading notes. Activates for: '研究下这篇文章', '帮我看看这篇论文', '帮我读下这篇论文', '增加下这篇文章', 'add this paper', 'read this paper', paper ingest, paper reading, paper analysis, 论文阅读, figure extraction from PDFs, or any task involving structured paper reading notes. If the user mentions a paper title, arXiv link, DOI, or drops a PDF for research purposes, use this skill."
+---
+
+# Paper Reading — 论文阅读解读助手
+
+You help the human read, analyze, and organize papers with structured reading notes. The human curates papers and directs analysis; you read full texts, compile structured reading notes, maintain cross-references within each paper's wiki, and extract figures.
+
+## Architecture
+
+```
+<Paper-Root>/                      → Project root (e.g., e:\PaperReading)
+├── <Paper Title A>/               → One folder per paper being studied
+│   ├── <paper-a>.pdf              → Main paper PDF
+│   ├── wiki/                      → All reading notes for this paper
+│   │   ├── index.md               → Navigation entry for this paper
+│   │   ├── <main-slug>.md         → Main paper reading note
+│   │   ├── <related-slug>.md      → Related paper reading note (same format)
+│   │   └── figures/               → Extracted figures, grouped by paper
+│   │       ├── <main-slug>/
+│   │       │   ├── figure_1.png
+│   │       │   └── figure_2.png
+│   │       └── <related-slug>/
+│   │           └── figure_1.png
+│   └── Related/                   → Reference PDFs only (no subdirectories)
+│       └── <related-paper>.pdf
+├── <Paper Title B>/
+│   └── ...
+```
+
+### Key Principles
+
+- **Paper-centric**: Each paper folder is self-contained. No cross-folder dependencies.
+- **Flat Related/**: `Related/` stores only PDF files. No nested directories, no reading notes inside it.
+- **Wiki as notes**: `wiki/` holds all reading notes (main + related papers) and extracted figures.
+- **Standard markdown**: All files use standard markdown syntax. No Obsidian wikilinks or special syntax.
+
+## Page Formats
+
+### Reading Note (source page)
+
+Each paper's reading note is a markdown file with YAML frontmatter and 8 fixed sections.
+
+**YAML Frontmatter:**
+
+```yaml
+---
+type: source
+id: <kebab-case-slug>
+pdf_path: ../<slug>.pdf              # Main paper (relative to wiki/)
+# or: ../Related/<slug>.pdf         # Related paper (relative to wiki/)
+tags:
+  - <domain-tag>
+  - year/YYYY-MM
+  - venue/<short-name>
+created: YYYY-MM-DD
+last_updated: YYYY-MM-DD
+authors:
+  - <Author Name>
+aliases:
+  - <Full Paper Title>
+---
+```
+
+**Body Sections (in order):**
+
+| Section | Purpose |
+|---------|---------|
+| `## Essence` | One-sentence summary + contribution statement |
+| `## Factors` | Context, Related Work, Gap, Proposal |
+| `## Architecture` | Technical details, diagrams, key equations |
+| `## Evidence` | Experiments, results, validation |
+| `## Critical Analysis` | Novel Insight, Fundamental Limitations, Research Frontier |
+| `## Relations` | Temporal context + links to other papers (builds_on, contrasts_with, complements) |
+| `## Transferable Inspirations` | Ideas that can be applied beyond this paper's domain |
+| `## Open Questions` | Unresolved questions after reading |
+
+See `templates/paper.md` for the full template with formatting conventions.
+
+### Index Page (wiki/index.md)
+
+```yaml
+---
+type: index
+title: <Full Paper Title>
+wiki_language: <language-code>    # en | zh-CN | zh-TW | ja | ...
+last_updated: YYYY-MM-DD
+---
+```
+
+```markdown
+# 论文解读导航
+
+## 主论文
+- <main-slug> (<authors>, <year>, <venue>)
+
+## Related 论文解读
+- <related-slug-1> (<authors>, <year>, <venue>)
+- <related-slug-2> (<authors>, <year>, <venue>)
+```
+
+## Operations
+
+### Ingest (add a paper to the wiki)
+
+When the human asks to add/ingest/研究 a specific paper, follow these phases:
+
+---
+
+**Phase -1 — Paper Acquisition (auto-locate and download if needed):**
+
+Before reading the paper, ensure the PDF exists locally. Follow this decision tree:
+
+1. **Check if PDF already exists** — Search the current paper folder and `Related/` for the PDF:
+   ```bash
+   dir /s /b "<Paper Folder>\*.pdf"
+   ```
+   Also check if a reading note already exists in `wiki/` (by title/slug similarity). If already fully ingested, inform the human and skip.
+
+2. **If PDF not found — resolve the paper's identity.** The human may provide:
+
+   - **arXiv ID** (e.g., `2604.00590`): download directly
+     ```bash
+     curl -L -o "<target-path>/<slug>.pdf" "https://arxiv.org/pdf/<arxiv-id>"
+     ```
+
+   - **DOI** (e.g., `10.4028/www.scientific.net/AMR.97-101.2824`): try Semantic Scholar first, then Sci-Hub
+     ```bash
+     curl -s "https://api.semanticscholar.org/graph/v1/paper/DOI:<doi>?fields=title,openAccessPdf,externalIds"
+     ```
+     If `openAccessPdf` exists → download. Otherwise → Sci-Hub (see below).
+
+   - **URL** (arXiv, OpenReview, conference page): extract the PDF link and download. If URL contains a DOI, follow DOI path.
+
+   - **Paper title only**: search for it:
+     ```bash
+     # 1) Try arXiv API (preferred — gives direct PDF link)
+     curl -s "https://export.arxiv.org/api/query?search_query=ti:<url-encoded-title>&max_results=3"
+     ```
+     If arXiv returns a match, download the PDF. If not:
+     ```bash
+     # 2) Try Semantic Scholar
+     curl -s "https://api.semanticscholar.org/graph/v1/paper/search?query=<url-encoded-title>&limit=3&fields=title,externalIds,openAccessPdf"
+     ```
+     Use `openAccessPdf.url` if available. Otherwise, extract DOI from response and try Sci-Hub.
+
+3. **Sci-Hub fallback (via DOI)** — If arXiv and Semantic Scholar openAccessPdf both fail but a DOI is available:
+
+   a. **Discover Sci-Hub mirrors dynamically:**
+      ```bash
+      # Use a search engine to find current Sci-Hub URLs
+      curl -sL "https://duckduckgo.com/html/?q=sci-hub"
+      ```
+      Extract the first 5 URLs from search results that contain "sci-hub" in the domain.
+
+   b. **Try each mirror in sequence:**
+      For each candidate URL:
+      ```bash
+      curl -sL "<candidate-url>/<DOI>" -o temp_download
+      ```
+      - If the response is a PDF (file > 1KB and starts with `%PDF`): success, rename to target path.
+      - If the response is HTML: parse for `<iframe src="...">` or `<embed src="...">` containing a PDF URL, then download that URL.
+      - If neither works: try next candidate.
+
+   c. **All mirrors fail** → proceed to step 4.
+
+4. **If download fails** — Inform the human: "无法自动下载此论文的 PDF，请手动将 PDF 放入 `<Paper Folder>/` 或 `<Paper Folder>/Related/`。" Then stop.
+
+5. **Verify download** — Confirm the PDF exists and is > 1KB (not an error page).
+
+**Download priority chain:** arXiv direct → Semantic Scholar openAccessPdf → Sci-Hub via DOI → manual placement.
+
+**Hard gate:** Do NOT proceed to Phase 0 until a valid PDF exists.
+
+---
+
+**Phase 0 — Full-Text Reading:**
+
+1. **Detect if the PDF is a scanned document (no text layer):**
+
+   Use PyMuPDF to check text content on each page:
+   ```python
+   import fitz
+   doc = fitz.open(pdf_path)
+   text_lengths = [len(doc[i].get_text()) for i in range(doc.page_count)]
+   is_scanned = sum(1 for l in text_lengths if l < 50) > len(text_lengths) * 0.5
+   ```
+   If more than half the pages have fewer than 50 characters of extracted text, treat as a scanned PDF.
+
+2. **If the PDF has a text layer:** use `read_file` to read the PDF directly. Read the full text.
+
+3. **If the PDF is a scanned document:**
+
+   a. Render each page to a PNG image:
+      ```python
+      for i in range(doc.page_count):
+          pix = doc[i].get_pixmap(dpi=200)
+          pix.save(f"temp_scan_page_{i+1}.png")
+      ```
+
+   b. Use `read_file` on each PNG image to read the content through LLM vision capabilities. The LLM can understand text, formulas, tables, and figures from the images.
+
+   c. Synthesize content from all pages for analysis in subsequent phases.
+
+   d. **Cleanup**: After the reading note is fully written (Phase 4 complete), delete all `temp_scan_page_*.png` files. These are temporary intermediates, NOT the paper's extracted figures.
+
+4. Read the full paper text with active comprehension — identify structure, key arguments, methodology, results, and limitations.
+
+---
+
+**Phase 1 — Analyze:**
+
+1. Read `wiki/index.md` (if it exists) to understand what has already been ingested for this paper.
+2. Read any existing reading notes in `wiki/` to build context.
+3. Analyze the paper systematically: extract essence, factors, architecture, evidence, critical analysis, relations, transferable inspirations, open questions.
+4. Identify temporal positioning relative to existing related papers.
+
+---
+
+**Phase 2 — Report to human:**
+
+Summarize key findings to the human before writing. Include:
+- One-sentence summary
+- Key contribution
+- Main limitations
+- Relationship to other papers already in the wiki (if any)
+
+Wait for human confirmation before proceeding to write.
+
+---
+
+**Phase 3 — Extract figures:**
+
+```bash
+python scripts/paper_extract_figures.py "<pdf-path>" -o "wiki/figures/<slug>" -f json
+```
+
+Review the extracted figures. Select the most informative ones for inclusion in the reading note.
+
+---
+
+**Phase 4 — Write reading notes:**
+
+1. **Create/update `wiki/<slug>.md`** using the `templates/paper.md` template. Fill in all 8 sections based on Phase 1 analysis.
+
+2. **Image embeds**: Reference extracted figures using relative paths:
+   ```markdown
+   ![Figure description](figures/<slug>/figure_N.png)
+   ```
+
+3. **Cross-references**: When referencing other papers within the same `wiki/`, use standard markdown links:
+   ```markdown
+   See [related-paper-slug](related-paper-slug.md) for the foundational proof.
+   ```
+   Or use plain text slugs when formal linking is not needed.
+
+4. **Update `wiki/index.md`**: Add the new paper to the appropriate section (主论文 or Related 论文解读). Create `index.md` if it doesn't exist yet.
+
+   If this is the first ingest (creating a new paper folder), also set `wiki_language` in `index.md` frontmatter. Ask the human which language to use if not specified. Default to `zh-CN`.
+
+---
+
+**Phase 5 — Auto-Expand (discover and ingest related papers):**
+
+After completing the main paper ingest, automatically identify up to 3 key related papers:
+- Direct predecessor work
+- Core comparison baseline
+- Cross-domain inspiration source
+
+For each candidate:
+1. Present to the human with a brief description of why it's relevant.
+2. If confirmed: download PDF to `Related/<slug>.pdf` (using the download priority chain from Phase -1).
+3. Run the full ingest pipeline (Phase 0–4) for each confirmed paper, writing its reading note to `wiki/<slug>.md`.
+4. **Do NOT recursively Auto-Expand** for related papers — only the main paper triggers Auto-Expand.
+5. Update `wiki/index.md` with the new Related paper entries.
+
+This is a **Confirm-tier** operation — always requires user approval before execution.
+
+---
+
+### Search (find papers on a topic from academic sources)
+
+When the human wants to discover new papers on a topic, run the automated search pipeline.
+
+**Trigger phrases:** "搜索关于X的论文", "find papers on X", "自动检索X方向的论文"
+
+**Phase 1 — Plan search parameters:**
+
+1. **Identify query** — Derive a concise English search query from the human's topic description (3–8 words).
+2. **Identify seeds** — List any known paper names/titles in this area already in the wiki.
+3. **Identify venue filter** — Default: `KDD SIGIR WWW RecSys WSDM CIKM arXiv`. Adjust if human specifies.
+4. **Confirm plan with human** — Print proposed query, seeds, and venues. Wait for approval.
+
+**Phase 2 — Execute search:**
+
+```bash
+python scripts/paper_search.py \
+  --query "<derived query>" \
+  --seeds "<seed paper 1>" "<seed paper 2>" \
+  --venues KDD SIGIR WWW RecSys WSDM CIKM arXiv \
+  --limit 30 \
+  --report output/search_report.md
+```
+
+**Phase 3 — Agent review, analysis & presentation:**
+
+After the script finishes, read `output/search_report.md` and analyze each paper:
+
+- Skip papers already in any wiki, off-topic papers, and low-relevance Tier 3 results.
+- For each remaining paper, write a structured analysis block (in wiki_language):
+  ```
+  ### [N] <Title>
+  - 📅 Year  |  🏛 Venue  |  📊 Citations  |  🔗 [PDF](url) / no PDF
+  - **主要工作：** <1-2 sentences>
+  - **核心亮点：** <bullet points>
+  - **与主题的关联：** <relevance>
+  - **推荐优先级：** 🔴 必读 / 🟡 值得一看 / ⚪ 可选
+  ```
+- End with a one-paragraph synthesis.
+- Ask human which papers to download.
+
+**Phase 4 — Download selected papers:**
+
+Download to the appropriate `Related/` directory (or create new paper folders for 🔴 必读 papers if the human wants to study them independently):
+
+```bash
+python scripts/paper_search.py \
+  --query "<derived query>" \
+  --download \
+  --min-score 0.5 \
+  --out "<Paper Folder>/Related" \
+  --report output/search_report.md
+```
+
+**Phase 5 — Ingest downloaded papers** using the standard Ingest pipeline.
+
+---
+
+### Query (human asks a question)
+
+1. Read `wiki/index.md` → find relevant reading notes.
+2. Read relevant `wiki/*.md` pages, synthesize answer.
+3. If the answer produces genuinely new cross-paper insights not already recorded, offer to update the relevant reading note's `## Critical Analysis` or `## Open Questions`.
+
+---
+
+### Lint (health check)
+
+Check for consistency within a paper folder's `wiki/`:
+
+- `pdf_path` in each reading note points to an existing PDF file
+- `![...](figures/...)` image paths resolve to existing files
+- `wiki/index.md` lists all `.md` files in `wiki/` (excluding itself)
+- `wiki/index.md` does not list papers that have no corresponding `.md` file
+- `Related/` contains only `.pdf` files (no subdirectories)
+- No orphan figures directories (figures dir exists but corresponding reading note doesn't)
+- Cross-references between reading notes within the same `wiki/` resolve correctly
+
+When structural issues are detected during any operation:
+- Auto-fixable issues (broken paths, missing index entries) → fix immediately
+- Semantic issues (contradictions, stale claims) → report to human
+
+## Conventions
+
+- **Wiki language**: Configured in `wiki/index.md` frontmatter as `wiki_language` (e.g., `en`, `zh-CN`, `zh-TW`, `ja`). All reading note body content MUST be written in the configured language. Language-invariant elements remain in English: YAML field names, section headings (`## Essence`, `## Factors`, etc.), formatting labels (`**Insight**:`, `*Prior*:`, etc.), kebab-case slugs, and tag names.
+- Page filenames use kebab-case slugs: `attention-is-all-you-need.md`
+- All dates use ISO format: `2026-04-06`
+- Domain tags use kebab-case: `multibody-dynamics`
+- Standard markdown only — no Obsidian wikilinks (`[[...]]`), no `![[...]]` image embeds
+- Image embeds use standard markdown: `![alt](relative/path.png)`
+- Cross-references within the same `wiki/` use markdown links: `[text](slug.md)` or plain text
+
+## Bootstrapping a New Paper Folder
+
+When the human provides a paper to read for the first time:
+
+1. **Determine the paper title** from the PDF, URL, or human input.
+2. **Ask the human** which language the reading notes should use (default: `zh-CN`).
+3. **Create directory structure**:
+   ```
+   <Paper Title>/
+   ├── <paper>.pdf
+   ├── wiki/
+   │   ├── index.md
+   │   └── figures/
+   └── Related/
+   ```
+4. **Create `wiki/index.md`** with language configuration in frontmatter.
+5. Proceed with Ingest Phase 0.
