@@ -14,4 +14,6 @@ last_updated: 2026-05-14
 （暂无）
 
 ## Topic 专题
-（暂无）
+
+### 逐章精读笔记
+- [Ch.1 Elements of Computer-Aided Kinematics and Dynamics](ch1-elements-of-cakd.md) — 导论：学科范围、工程实例、传统方法vs计算方法、两种坐标方法对比、全书导读

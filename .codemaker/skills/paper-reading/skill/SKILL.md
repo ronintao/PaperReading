@@ -1,20 +1,20 @@
 ---
 name: paper-reading
 display_name: "Paper Reading"
-description: "Use when the user asks to research, read, ingest, or analyze a paper/article, or when organizing paper reading notes. Activates for: '研究下这篇文章', '帮我看看这篇论文', '帮我读下这篇论文', '增加下这篇文章', 'add this paper', 'read this paper', paper ingest, paper reading, paper analysis, 论文阅读, figure extraction from PDFs, or any task involving structured paper reading notes. If the user mentions a paper title, arXiv link, DOI, or drops a PDF for research purposes, use this skill."
+description: "Use when the user asks to research, read, ingest, or analyze a paper/article, or when organizing paper reading notes. Activates for: '研究下这篇文章', '帮我看看这篇论文', '帮我读下这篇论文', '增加下这篇文章', 'add this paper', 'read this paper', paper ingest, paper reading, paper analysis, 论文阅读, figure extraction from PDFs, chapter-by-chapter reading of books/textbooks ('分析第X章', '读一下他的第N章', 'analyze chapter N', '逐章阅读'), or any task involving structured paper reading notes. If the user mentions a paper title, arXiv link, DOI, or drops a PDF for research purposes, use this skill."
 category: documentation
 tags:
   - paper-reading
   - research
   - academic
   - pdf-analysis
-version: 2.1.0
+version: 2.2.0
 status: published
 ---
 
 # Paper Reading — 论文阅读解读助手
 
-You help the human read, analyze, and organize papers with structured reading notes. The human curates papers and directs analysis; you read full texts, compile structured reading notes, maintain cross-references within each paper's wiki, and extract figures.
+You help the human read, analyze, and organize papers with structured reading notes. The human curates papers and directs analysis; you read full texts, compile structured reading notes, maintain cross-references within each paper's wiki, and extract figures. For book-length works (textbooks, monographs), you also support chapter-by-chapter deep reading with dedicated chapter notes.
 
 ## Architecture
 
@@ -26,6 +26,7 @@ You help the human read, analyze, and organize papers with structured reading no
 │   │   ├── index.md               → Navigation entry for this paper
 │   │   ├── <main-slug>.md         → Main paper reading note
 │   │   ├── <related-slug>.md      → Related paper reading note (same format)
+│   │   ├── ch<N>-<slug>.md        → Chapter reading note (for books/textbooks)
 │   │   └── figures/               → Extracted figures, grouped by paper
 │   │       ├── <main-slug>/
 │   │       │   ├── figure_1.png
@@ -87,6 +88,58 @@ aliases:
 
 See `templates/paper.md` for the full template with formatting conventions.
 
+### Chapter Notes (chapter-notes page)
+
+For book-length works (textbooks, monographs), each chapter can have a dedicated reading note. Chapter notes focus on **concept definitions, symbol definitions, and key arguments** rather than the paper-level Essence/Factors/Architecture structure.
+
+**YAML Frontmatter:**
+
+```yaml
+---
+type: chapter-notes
+parent: <parent-source-slug>       # slug of the book's main reading note
+chapter: <N>                       # chapter number (integer)
+title: "<Chapter Title>"
+pages: <start>-<end>               # page range in the book (not PDF pages)
+sections:
+  - "<N.M> <Section Title>"
+created: YYYY-MM-DD
+last_updated: YYYY-MM-DD
+---
+```
+
+**Body Sections (in order):**
+
+| Section | Purpose |
+|---------|---------|
+| `## 章节定位` | Chapter's role within the book, what it covers and doesn't cover |
+| `## 概念定义` | ALL concept definitions introduced in this chapter, with English original + Chinese translation |
+| `## 符号定义` | ALL mathematical/physical symbols introduced, grouped by context |
+| `## 核心论点` | Main arguments, comparisons, and conclusions |
+| `## 工程应用与实例` | Worked examples, engineering applications, case studies |
+| `## 与全书的关系` | How this chapter's content maps to other chapters |
+
+**Concept definition format:**
+
+```markdown
+**<English Term>（<中文译名>）** [p.<page>]
+> <Original English definition quoted from the text.>
+>
+> <Chinese translation of the definition.>
+```
+
+**Symbol definition format (table):**
+
+```markdown
+| 符号 | 类型 | 含义 |
+|------|------|------|
+| $\theta$ | 标量，角度 | 曲柄角 |
+```
+
+**Filename convention:** `ch<N>-<kebab-case-slug>.md`, e.g., `ch1-elements-of-cakd.md`, `ch3-planar-kinematics.md`
+
+See `templates/chapter.md` for the full template with formatting conventions.
+
 ### Index Page (wiki/index.md)
 
 ```yaml
@@ -110,6 +163,9 @@ last_updated: YYYY-MM-DD
 
 ## Topic 专题
 - <topic-slug>: <brief description of the sub-question>
+
+### 逐章精读笔记
+- [Ch.<N> <Chapter Title>](ch<N>-<slug>.md) — <one-line summary>
 ```
 
 ## Operations
@@ -394,6 +450,125 @@ When the human asks to extract/整理/提取 a specific sub-question from the pa
 
 ---
 
+### Chapter Reading (deep-read a chapter of a book/textbook)
+
+When the human asks to read/analyze a specific chapter of a book-length work, follow these phases.
+
+**Trigger phrases:** "分析第X章", "读一下第N章", "分析他的第一章", "analyze chapter N", "read chapter N", "逐章阅读"
+
+**Applicability:** This operation is for **book-length works** (textbooks, monographs, long survey papers with distinct chapters). For regular papers (< 30 pages), use the standard Ingest operation instead.
+
+---
+
+**Phase 0 — Locate and read the chapter:**
+
+1. **Identify the book's PDF and existing wiki.** Read `wiki/index.md` and the main reading note to understand the book's structure (table of contents, chapter boundaries).
+
+2. **Determine chapter page range.** The human may specify a chapter number (e.g., "第3章") or a chapter title. Map this to PDF page numbers. Account for front matter offset (e.g., book page 1 may be PDF page 14).
+
+   If the chapter boundaries are unclear, check the table of contents or ask the human.
+
+3. **Read all pages in the chapter.** Use the same scanning approach as Ingest Phase 0:
+   - For text-layer PDFs: `read_file` on the PDF with appropriate page offsets.
+   - For scanned PDFs: render each page to PNG at 200 DPI using PyMuPDF, then read each image via `read_file` (LLM vision).
+
+   ```python
+   import fitz
+   doc = fitz.open(pdf_path)
+   for i in range(start_pdf_page, end_pdf_page + 1):
+       pix = doc[i].get_pixmap(dpi=200)
+       pix.save(f"temp_scan_page_{i+1}.png")
+   ```
+
+   Read pages in batches of 2 (the `read_file` tool limit per turn). Process all pages before proceeding.
+
+4. **Cleanup** temp scan files after the chapter note is fully written.
+
+---
+
+**Phase 1 — Analyze the chapter:**
+
+Extract the following from the chapter text:
+
+1. **章节定位 (Chapter Positioning):**
+   - What is this chapter's role in the book? (introduction, theory, application, etc.)
+   - What does it cover? What does it NOT cover?
+   - What prerequisites are assumed?
+
+2. **概念定义 (Concept Definitions):**
+   - Extract ALL concept definitions introduced in this chapter.
+   - For each concept, capture:
+     - The English term and its Chinese translation
+     - The page number where it's defined
+     - The original English definition (quote from the text)
+     - A Chinese translation of the definition
+   - Include both formal definitions and important informal ones.
+
+3. **符号定义 (Symbol Definitions):**
+   - Extract ALL mathematical/physical symbols introduced.
+   - For each symbol: its notation, type (scalar/vector/matrix/point), and meaning.
+   - Group symbols by context (figure, section, method).
+   - Note whether symbols are formal (used throughout the book) or informal (example-only).
+
+4. **核心论点 (Key Arguments):**
+   - Main arguments, comparisons, and conclusions.
+   - Side-by-side comparisons (use tables).
+   - Classifications and taxonomies.
+
+5. **工程应用与实例 (Engineering Examples):**
+   - Worked examples, engineering applications, case studies.
+   - For each: figure reference, name, type, application, key takeaway.
+
+6. **与全书的关系 (Relation to Other Chapters):**
+   - How concepts introduced here are developed in later chapters.
+   - Prerequisites from earlier chapters.
+
+---
+
+**Phase 2 — Report to human:**
+
+Present a structured summary of the chapter analysis before writing:
+- Chapter positioning (1-2 sentences)
+- Number of concept definitions found
+- Number of symbol definitions found
+- Key arguments summary
+- List of engineering examples
+
+Wait for human confirmation or corrections before writing.
+
+---
+
+**Phase 3 — Write chapter notes:**
+
+1. **Create `wiki/ch<N>-<slug>.md`** using the `templates/chapter.md` template. Fill in all 6 sections based on Phase 1 analysis.
+
+   Filename convention: `ch<N>-<slug>.md` where `<N>` is the chapter number and `<slug>` is a kebab-case abbreviation of the chapter title.
+
+   Examples:
+   - `ch1-elements-of-cakd.md`
+   - `ch3-planar-cartesian-kinematics.md`
+   - `ch6-planar-dynamics.md`
+
+2. **Concept definitions** must follow the standard format — every concept gets:
+   - English term with Chinese translation in parentheses
+   - Page citation in brackets
+   - Blockquote with original English text
+   - Blockquote with Chinese translation
+   - Separated by `---` between concepts
+
+3. **Symbol definitions** use table format grouped by context. Note if symbols are formal or example-only.
+
+4. **Update `wiki/index.md`**: Add the chapter note to the `### 逐章精读笔记` sub-section under `## Topic 专题`. Create the sub-section if it doesn't exist.
+
+   Format:
+   ```markdown
+   ### 逐章精读笔记
+   - [Ch.1 <Title>](ch1-<slug>.md) — <one-line summary>
+   - [Ch.3 <Title>](ch3-<slug>.md) — <one-line summary>
+   ```
+
+---
+
 ### Lint (health check)
 
 Check for consistency within a paper folder's `wiki/`:
@@ -415,6 +590,7 @@ When structural issues are detected during any operation:
 - **Wiki language**: Configured in `wiki/index.md` frontmatter as `wiki_language` (e.g., `en`, `zh-CN`, `zh-TW`, `ja`). All reading note body content MUST be written in the configured language. Language-invariant elements remain in English: YAML field names, section headings (`## Essence`, `## Factors`, etc.), formatting labels (`**Insight**:`, `*Prior*:`, etc.), kebab-case slugs, and tag names.
 - Page filenames use kebab-case slugs: `attention-is-all-you-need.md`
 - **Topic filenames** use `topic-` prefix: `topic-constraint-force-calc.md` — this distinguishes topic documents from source reading notes at a glance
+- **Chapter note filenames** use `ch<N>-` prefix: `ch1-elements-of-cakd.md`, `ch3-planar-kinematics.md` — this distinguishes chapter notes at a glance and preserves chapter ordering
 - All dates use ISO format: `2026-04-06`
 - Domain tags use kebab-case: `multibody-dynamics`
 - Standard markdown only — no Obsidian wikilinks (`[[...]]`), no `![[...]]` image embeds
