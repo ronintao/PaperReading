@@ -8,7 +8,7 @@ tags:
   - research
   - academic
   - pdf-analysis
-version: 2.2.0
+version: 2.3.0
 status: published
 ---
 
@@ -464,6 +464,93 @@ When the human asks to read/analyze a specific chapter of a book-length work, fo
 
 ---
 
+**Mode branching — Explore vs. Apply:**
+
+Before entering the reading phases, determine the current mode:
+
+- **Explore mode** (user is in `/opsx:explore` or thinking/planning stance): Go to **Phase 0-E (Explore Preparation)**. Only read for structure (TOC, chapter boundaries), never for content.
+- **OpenSpec FF/New mode** (user is creating OpenSpec artifacts for a chapter reading task): Use Phase 0-E output to help create OpenSpec `proposal.md` and `tasks.md` with batch-based tasks. Do NOT start reading.
+- **OpenSpec Apply mode** (user is executing OpenSpec tasks for chapter reading): Read `tasks.md` to find the next pending batch task, execute that batch, write part file, mark task complete.
+- **Apply mode** (default, no OpenSpec, user wants to directly read): Go to **Phase 0** as normal.
+- **Continuation** (user says "继续读第N章"): Go to **Phase 0-C** directly.
+
+---
+
+**Phase 0-E — Explore preparation (explore mode only):**
+
+This phase reads only for structure — to determine chapter boundaries and plan batches. No content reading, no notes.
+
+1. **Read the book's table of contents.** Use PDF bookmarks (TOC) or `read_file` on the TOC pages to identify chapter boundaries (start/end PDF page numbers for the target chapter).
+
+2. **Read the chapter's first page.** Confirm the chapter title and starting section.
+
+3. **Read the chapter's last page** (or the page before the next chapter starts). Confirm the chapter ends where expected.
+
+4. **Detect if the PDF is a scanned document.** Same detection logic as Ingest Phase 0.
+
+5. **If scanned: render all pages** to `temp_ch<N>/` (same as Phase 0 step 4). Skip if already rendered.
+
+6. **Check for existing progress.** If `wiki/ch<N>-parts/` contains part files, read the last part's metadata to determine how far previous sessions got.
+
+7. **Report to human:**
+   - Chapter title and number
+   - PDF page range (e.g., pages 131–165) and total page count
+   - Scanned or text-layer
+   - If no prior progress: estimated batch count (total pages ÷ 15, rounded up)
+   - If prior progress exists: completed batches, pages read so far, remaining pages, estimated remaining batches
+   - Prompt: "章节信息已确认。可使用 `/opsx:ff` 创建阅读计划，或直接开始阅读。"
+
+8. **Stop.** Do not proceed to Phase 0-B or any reading phase.
+
+---
+
+**Phase 0-F — OpenSpec artifact creation (FF/New mode):**
+
+When the user uses `/opsx:ff` or `/opsx:new` for a chapter reading task, help create OpenSpec artifacts using the information from Phase 0-E (or run Phase 0-E first if not yet done).
+
+The **proposal** should describe:
+- Which book, which chapter, chapter title
+- Total pages, scanned or text-layer
+- Reading strategy (batch-based for >15 scanned pages, single-session otherwise)
+
+The **tasks** should list concrete reading batches:
+```markdown
+## 1. 准备
+
+- [ ] 1.1 渲染章节页面至 temp_ch<N>/（如已渲染则跳过）
+
+## 2. 分批阅读
+
+- [ ] 2.1 Batch 1: page_<start> ~ page_<end>（~15页）→ 写 ch<N>-part1.md
+- [ ] 2.2 Batch 2: page_<start> ~ page_<end>（~15页）→ 写 ch<N>-part2.md
+- [ ] 2.3 Batch 3: page_<start> ~ page_<end>（~N页）→ 写 ch<N>-part3.md
+
+## 3. 合并与收尾
+
+- [ ] 3.1 合并所有 part 文件为 wiki/ch<N>-<slug>.md
+- [ ] 3.2 更新 wiki/index.md
+- [ ] 3.3 清理 temp_ch<N>/ 和 ch<N>-parts/
+```
+
+Batch page ranges are estimated at ~15 pages each; actual boundaries will be adjusted during apply to align with section breaks (±2 pages tolerance). When a batch finishes, update the task description with actual page range if it differs from the estimate.
+
+**Design and specs artifacts are optional** for chapter reading tasks — the proposal and tasks are usually sufficient.
+
+---
+
+**Phase 0-G — OpenSpec apply (executing batch tasks):**
+
+When the user uses `/opsx:apply` for a chapter reading change:
+
+1. Read the change's `tasks.md` to find the next unchecked batch task.
+2. Execute that batch following Phase 0-B's reading logic (read pages, extract content, write part file with metadata including `Next batch starts`).
+3. After writing the part file, mark the task as complete (`- [x]`) in `tasks.md`.
+4. If the actual page range differed from the estimate (due to section boundary alignment), update the task description and adjust the next batch's estimated range.
+5. Report progress and stop. The next `/opsx:apply` will pick up the next batch.
+6. When all batch tasks are complete, execute the merge tasks (Phase 0-D logic).
+
+---
+
 **Phase 0 — Locate and read the chapter:**
 
 1. **Identify the book's PDF and existing wiki.** Read `wiki/index.md` and the main reading note to understand the book's structure (table of contents, chapter boundaries).
@@ -508,6 +595,11 @@ Each session reads one batch of ~15 pages and produces an intermediate part file
    - If no prior parts exist: start from the chapter's first page.
    - Each batch targets ~15 pages, but **prefer splitting at section boundaries** (±2 pages tolerance). If a new section title is visible within 2 pages of the 15-page mark, extend or shorten the batch to align.
 
+   When ending a batch, determine the `Next batch starts` value:
+   - Identify the page and section where the next batch should begin (typically the first page after the batch's last covered section, or the start of a new section that was deferred to keep it intact).
+   - Record as `<!-- Next batch starts: page_NNN.png, §X.Y Section Title -->`.
+   - If this batch covers the chapter's last page, record `<!-- Next batch starts: none (chapter complete) -->` instead.
+
 2. **Read the batch pages:**
    - Use `read_file` on each PNG in the batch (2 per turn).
    - Extract content according to Phase 1's analysis framework (concepts, symbols, arguments, examples).
@@ -521,6 +613,7 @@ Each session reads one batch of ~15 pages and produces an intermediate part file
    <!-- Pages: page_060.png ~ page_073.png (book pp.48-61) -->
    <!-- Sections covered: §3.1, §3.2 (partial) -->
    <!-- Continues from previous: no | yes, §X.Y -->
+   <!-- Next batch starts: page_074.png, §3.3 Section Title -->
 
    ## 概念定义
 
@@ -567,8 +660,10 @@ When the human triggers Chapter Reading for a chapter that already has intermedi
 
 1. **Detect state:**
    - Check `wiki/ch<N>-parts/` for existing part files.
-   - Read the last part's metadata to determine the last processed page.
-   - Compare against `temp_ch<N>/` to know remaining pages.
+   - Read the last part's metadata. Look for the `<!-- Next batch starts: ... -->` line:
+     - If present and value is `none (chapter complete)` → all pages are covered, proceed to Phase 0-D (merge).
+     - If present with a page reference (e.g., `page_074.png, §3.3 Section Title`) → use that page as the starting point for the next batch. Proceed to Phase 0-B.
+     - If the `Next batch starts` line is absent (legacy part file) → fall back to reading the last part's page range metadata, compute last page + 1 as the starting point. Compare against `temp_ch<N>/` to know remaining pages.
 
 2. **Route to appropriate action:**
    - If unread pages remain → proceed to Phase 0-B (create next batch).
