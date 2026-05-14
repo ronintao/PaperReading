@@ -260,18 +260,22 @@ Before reading the paper, ensure the PDF exists locally. Follow this decision tr
 
 3. **If the PDF is a scanned document:**
 
-   a. Render each page to a PNG image:
+   a. Render each page to a PNG image in a dedicated subfolder:
       ```python
+      import os
+      os.makedirs("temp_scan", exist_ok=True)
       for i in range(doc.page_count):
           pix = doc[i].get_pixmap(dpi=200)
-          pix.save(f"temp_scan_page_{i+1}.png")
+          pix.save(f"temp_scan/page_{i+1:03d}.png")
       ```
 
    b. Use `read_file` on each PNG image to read the content through LLM vision capabilities. The LLM can understand text, formulas, tables, and figures from the images.
 
    c. Synthesize content from all pages for analysis in subsequent phases.
 
-   d. **Cleanup**: After the reading note is fully written (Phase 4 complete), delete all `temp_scan_page_*.png` files. These are temporary intermediates, NOT the paper's extracted figures.
+   d. **Cleanup**: After the reading note is fully written (Phase 4 complete), delete the entire `temp_scan/` folder. These are temporary intermediates, NOT the paper's extracted figures.
+
+   > **Note**: If the scanned PDF exceeds 15 pages, a single session may not suffice. In that case, refer to the multi-session batch approach described in the Chapter Reading operation.
 
 4. Read the full paper text with active comprehension — identify structure, key arguments, methodology, results, and limitations.
 
@@ -454,7 +458,7 @@ When the human asks to extract/整理/提取 a specific sub-question from the pa
 
 When the human asks to read/analyze a specific chapter of a book-length work, follow these phases.
 
-**Trigger phrases:** "分析第X章", "读一下第N章", "分析他的第一章", "analyze chapter N", "read chapter N", "逐章阅读"
+**Trigger phrases:** "分析第X章", "读一下第N章", "分析他的第一章", "analyze chapter N", "read chapter N", "逐章阅读", "继续读第N章", "continue chapter N"
 
 **Applicability:** This operation is for **book-length works** (textbooks, monographs, long survey papers with distinct chapters). For regular papers (< 30 pages), use the standard Ingest operation instead.
 
@@ -468,21 +472,130 @@ When the human asks to read/analyze a specific chapter of a book-length work, fo
 
    If the chapter boundaries are unclear, check the table of contents or ask the human.
 
-3. **Read all pages in the chapter.** Use the same scanning approach as Ingest Phase 0:
-   - For text-layer PDFs: `read_file` on the PDF with appropriate page offsets.
-   - For scanned PDFs: render each page to PNG at 200 DPI using PyMuPDF, then read each image via `read_file` (LLM vision).
+3. **Read all pages in the chapter.**
+   - For text-layer PDFs: `read_file` on the PDF with appropriate page offsets. Read pages in batches of 2 per turn.
+   - For scanned PDFs: proceed to the rendering and reading sub-steps below.
+
+4. **Render scanned pages to a dedicated folder:**
 
    ```python
-   import fitz
+   import fitz, os
    doc = fitz.open(pdf_path)
+   os.makedirs("temp_ch<N>", exist_ok=True)
    for i in range(start_pdf_page, end_pdf_page + 1):
        pix = doc[i].get_pixmap(dpi=200)
-       pix.save(f"temp_scan_page_{i+1}.png")
+       pix.save(f"temp_ch<N>/page_{i+1:03d}.png")
    ```
 
-   Read pages in batches of 2 (the `read_file` tool limit per turn). Process all pages before proceeding.
+   Replace `<N>` with the chapter number. File names use zero-padded 3-digit PDF page numbers.
 
-4. **Cleanup** temp scan files after the chapter note is fully written.
+   **Skip rendering** if `temp_ch<N>/` already exists and contains the expected number of PNG files (i.e., pages were pre-rendered in a prior session or manual preparation).
+
+5. **Determine reading mode based on page count:**
+
+   - **If total scanned pages ≤ 15:** Use **single-session mode** — read all pages via `read_file` (2 per turn), then proceed directly to Phase 1.
+   - **If total scanned pages > 15:** Use **multi-session batch mode** — proceed to Phase 0-B.
+
+---
+
+**Phase 0-B — Multi-session batch reading (for chapters > 15 scanned pages):**
+
+Each session reads one batch of ~15 pages and produces an intermediate part file.
+
+1. **Determine current batch range:**
+   - Check if `wiki/ch<N>-parts/` exists and contains prior part files.
+   - If prior parts exist: read the last part's metadata comment to find the last processed page. Start the new batch from the next page.
+   - If no prior parts exist: start from the chapter's first page.
+   - Each batch targets ~15 pages, but **prefer splitting at section boundaries** (±2 pages tolerance). If a new section title is visible within 2 pages of the 15-page mark, extend or shorten the batch to align.
+
+2. **Read the batch pages:**
+   - Use `read_file` on each PNG in the batch (2 per turn).
+   - Extract content according to Phase 1's analysis framework (concepts, symbols, arguments, examples).
+
+3. **Write intermediate part file:**
+
+   Create `wiki/ch<N>-parts/ch<N>-part<M>.md` (where M is the batch sequence number, starting from 1):
+
+   ```markdown
+   <!-- Part M of Chapter N -->
+   <!-- Pages: page_060.png ~ page_073.png (book pp.48-61) -->
+   <!-- Sections covered: §3.1, §3.2 (partial) -->
+   <!-- Continues from previous: no | yes, §X.Y -->
+
+   ## 概念定义
+
+   **<English Term>（<中文译名>）** [p.<page>]
+   > <Original English definition quoted from the text.>
+   >
+   > <Chinese translation of the definition.>
+
+   ---
+
+   ## 符号定义
+
+   ### <Context Group>
+
+   | 符号 | 类型 | 含义 |
+   |------|------|------|
+   | $symbol$ | type | meaning |
+
+   ## 核心论点
+
+   ### §X.Y <Section Title>
+
+   <Content: prose, key arguments, equations, comparisons>
+
+   ## 工程应用与实例
+
+   | 图号/例题号 | 名称 | 类型 | 应用 | 关键知识点 |
+   |------------|------|------|------|-----------|
+   | | | | | |
+   ```
+
+   The part file uses the same section structure as the final chapter-notes template, but **omits** YAML frontmatter, `## 章节定位`, and `## 与全书的关系` (these require full-chapter perspective and are written during merge).
+
+4. **Report progress to human:**
+   - Pages processed in this batch
+   - Total progress: "Part M done. Covered pages X-Y. Remaining: ~Z pages (~K more sessions)."
+   - If all pages are now covered: "All pages read. Ready for merge — run '继续读第N章' or 'continue chapter N' to trigger merge."
+
+---
+
+**Phase 0-C — Cross-session continuation:**
+
+When the human triggers Chapter Reading for a chapter that already has intermediate parts (e.g., "继续读第3章"):
+
+1. **Detect state:**
+   - Check `wiki/ch<N>-parts/` for existing part files.
+   - Read the last part's metadata to determine the last processed page.
+   - Compare against `temp_ch<N>/` to know remaining pages.
+
+2. **Route to appropriate action:**
+   - If unread pages remain → proceed to Phase 0-B (create next batch).
+   - If all pages are covered → proceed to Phase 0-D (merge).
+
+---
+
+**Phase 0-D — Merge session (all parts complete):**
+
+When all chapter pages have been covered by part files:
+
+1. **Read all part files** in `wiki/ch<N>-parts/` in sequence order (part1, part2, ...). These are pure text, so context usage is minimal compared to images.
+
+2. **Merge into final chapter note** (`wiki/ch<N>-<slug>.md`):
+   - Write complete YAML frontmatter (type, parent, chapter, title, pages, sections, dates).
+   - Write `## 章节定位` — synthesize from full-chapter perspective.
+   - Merge all `## 概念定义` entries: sort by page number, deduplicate any concepts that appear at part boundaries.
+   - Merge all `## 符号定义` tables: combine, deduplicate, group logically.
+   - Integrate all `## 核心论点` sections: reorganize into a logically coherent structure following the chapter's section order.
+   - Merge all `## 工程应用与实例` tables into one.
+   - Write `## 与全书的关系` — map concepts to other chapters.
+
+3. **Update `wiki/index.md`**: Add the chapter note entry.
+
+4. **Cleanup** (after human confirms the final note is satisfactory):
+   - Delete `<Book-Folder>/temp_ch<N>/` folder (pre-rendered PNG images).
+   - Delete `wiki/ch<N>-parts/` folder (intermediate part files).
 
 ---
 

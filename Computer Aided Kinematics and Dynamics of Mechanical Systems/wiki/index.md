@@ -18,3 +18,4 @@ last_updated: 2026-05-14
 ### 逐章精读笔记
 - [Ch.1 Elements of Computer-Aided Kinematics and Dynamics](ch1-elements-of-cakd.md) — 导论：学科范围、工程实例、传统方法vs计算方法、两种坐标方法对比、全书导读
 - [Ch.2 Planar Vectors, Matrices, and Differential Calculus](ch2-planar-vectors-matrices-calculus.md) — 数学基础：几何→代数向量、矩阵代数、坐标变换矩阵A/B/R、矩阵微积分记号Φ_q、运动体上点的速度/加速度公式
+- [Ch.3 Planar Cartesian Kinematics](ch3-planar-cartesian-kinematics.md) — 核心方法论：平面运动副约束方程库、齿轮/凸轮高副、驱动约束、位置(N-R)/速度/加速度统一求解、奇异构型(lock-up/bifurcation)
