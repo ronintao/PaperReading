@@ -1,7 +1,7 @@
 ---
 type: source
 id: computer-aided-kinematics-and-dynamics
-pdf_path: E:\WizNotes\Data\13918407149\Tech\物理\Computer Aided Kinematics and Dynamics\论文_Attachments\Computer-Aided-Kinematics-and-Dynamics-of-Mech.pdf
+pdf_path: "../Computer Aided Kinematics and Dynamics of Mechanical Systems Volume1.pdf"
 tags:
   - multibody-dynamics
   - computational-mechanics
