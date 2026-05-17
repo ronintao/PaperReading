@@ -8,7 +8,7 @@ tags:
   - research
   - academic
   - pdf-analysis
-version: 2.3.0
+version: 2.4.0
 status: published
 ---
 
@@ -478,17 +478,17 @@ Before entering the reading phases, determine the current mode:
 
 **Phase 0-E — Explore preparation (explore mode only):**
 
-This phase reads only for structure — to determine chapter boundaries and plan batches. No content reading, no notes.
+This phase reads only for structure — to determine chapter boundaries and plan batches. **No content reading, no notes.** When viewing a page image to confirm boundaries, extract ONLY: chapter title, section number/title, and page number. Do NOT summarize, analyze, or interpret the chapter's subject matter, arguments, or themes from the text visible on the page. Content analysis belongs to the reading phases (Phase 0-B / Phase 1), not here.
 
 1. **Read the book's table of contents.** Use PDF bookmarks (TOC) or `read_file` on the TOC pages to identify chapter boundaries (start/end PDF page numbers for the target chapter).
 
-2. **Read the chapter's first page.** Confirm the chapter title and starting section.
+2. **Read the chapter's first page.** Extract ONLY: chapter title, first section number and title, book page number. Do not read or summarize the introductory paragraph or any body text.
 
-3. **Read the chapter's last page** (or the page before the next chapter starts). Confirm the chapter ends where expected.
+3. **Read the chapter's last page** (or the page before the next chapter starts). Extract ONLY: last section number and title, book page number. Do not read or summarize problem statements or any body text.
 
 4. **Detect if the PDF is a scanned document.** Same detection logic as Ingest Phase 0.
 
-5. **If scanned: render all pages** to `temp_ch<N>/` (same as Phase 0 step 4). Skip if already rendered.
+5. **If scanned: render ALL pages** to `temp_ch<N>/` (same as Phase 0 step 4). Skip if already rendered. This is mandatory — do NOT render only a few "preview" pages and skip the rest. The purpose is to have all pages ready for subsequent reading phases, avoiding redundant work later.
 
 6. **Check for existing progress.** If `wiki/ch<N>-parts/` contains part files, read the last part's metadata to determine how far previous sessions got.
 
