@@ -23,3 +23,7 @@ last_updated: 2026-05-18
 - [Ch.5 Planar Kinematic Modeling and Analysis](ch5-planar-kinematic-modeling.md) — 五大应用案例：曲柄滑块/四连杆/快回/齿轮-滑块/气门挺杆，建模配方(Recipe)、复合铰简化、装配陷阱、锁死/分叉奇异性、加速度对参数的极端敏感性
 - [Ch.6 Dynamics of Planar Systems](ch6-planar-dynamics.md) — 从运动学到动力学的跨越：虚功原理消除内力、广义力(弹簧-阻尼器-作动器)、拉格朗日乘子→DAE(Eq.6.3.18)、逆动力学(运动学确定系统)、最小总势能平衡、约束反力公式(Eqs.6.6.8-6.6.9)
 - [Ch.7 Numerical Methods in Dynamics](ch7-numerical-methods-dynamics.md) — DAE数值求解：DADS动力学程序架构、坐标分区DAE→ODE约化与存在性证明、四种DAE算法(坐标分区/直接积分/Baumgarte稳定化/混合算法)、Adams-Bashforth预测器+Adams-Moulton校正器PECE积分、自适应步长阶次控制、最小势能平衡分析
+- [Ch.8 Planar Dynamic Modeling and Analysis](ch8-planar-dynamic-modeling.md) — Part One收官：曲柄滑块(压缩机)飞轮惯量参数研究与失速能量分析、快回机构(牛头刨床)飞轮-循环频率反直觉关系、螺旋弹簧涌浪波与碰撞振颤(单侧弹簧/阻尼器)、气门挺杆弹簧设计准则(负反力=分离失效)
+- [Ch.9 Spatial Cartesian Kinematics](ch9-spatial-cartesian-kinematics.md) — Part Two 起点：空间向量+tilde 算子、方向余弦矩阵 A、角速度 ω/ω'、Euler 参数（无奇异姿态广义坐标）、6 类基本运动副+7 类复合关节+4 类驱动约束、位置/速度/加速度三段统一求解（系数矩阵复用）
+
+
