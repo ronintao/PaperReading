@@ -76,6 +76,13 @@ last_updated: 2026-06-09
 | quadratically convergent | 二阶收敛 | 误差正比于前一次误差平方 |
 | implicit function theorem | 隐函数定理 | 保证解存在唯一 |
 | position / velocity / acceleration analysis | 位置 / 速度 / 加速度分析 | 三段统一框架 |
+| singular configuration | 奇异构型 | 雅可比奇异之构型 |
+| lock-up configuration | 锁死构型 | 越过该点约束无解、$\dot{\mathbf{q}}\to\infty$；**不用**"自锁" |
+| bifurcation | 分岔 | 运动分叉为多条路径；行列式越过时变号 |
+| isolated singular point | 孤立奇异点 | 锁死/分岔点，其两侧有唯一解 |
+| theorem of the alternative | 择一定理 | 判定 $\boldsymbol{\Phi}_\mathbf{q}\dot{\mathbf{q}}=-\boldsymbol{\Phi}_t$ 是否有解 |
+| virtual displacement | 虚位移 | 时间冻结、满足一阶约束的 $\delta\mathbf{q}$；第 6 章详述 |
+| design parameter | 设计参数 | $\mathbf{b}=[b_1,\dots,b_k]^T$，如杆尺寸 |
 | time grid | 时间网格 | 仿真在一串时间点上求解 |
 | Taylor expansion | 泰勒展开 | 二阶展开作初值预测 |
 | differential-algebraic equations (DAE) | 微分-代数方程 | |
@@ -94,6 +101,7 @@ last_updated: 2026-06-09
 | coupler | 耦合体 / 连杆 | |
 | linkage | 连杆机构 | |
 | four-bar (linkage) | 四连杆（机构） | |
+| parallelogram four-bar | 平行四边形四连杆 | 等长两对杆；分岔典型例 |
 | quick-return | 快回（机构） | |
 | cam-follower | 凸轮-挺杆 | |
 | slider | 滑块 | |
