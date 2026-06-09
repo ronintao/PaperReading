@@ -45,6 +45,7 @@ You help the human read, analyze, and organize papers with structured reading no
 - **Flat Related/**: `Related/` stores only PDF files. No nested directories, no reading notes inside it.
 - **Wiki as notes**: `wiki/` holds all reading notes (main + related papers) and extracted figures.
 - **Standard markdown**: All files use standard markdown syntax. No Obsidian wikilinks or special syntax.
+- **Glossary-consistent translations**: Each paper's `wiki/` may contain a terminology glossary (`wiki/glossary.md`, `type: glossary`) that fixes the Chinese rendering of key English terms. Before writing or updating ANY note, **read `wiki/glossary.md` if it exists** and follow its translations exactly (first occurrence annotates English, e.g. `构型（configuration）`; later occurrences Chinese only). When you introduce a new key term not yet in the glossary, **add it** to the appropriate category there. If a note conflicts with the glossary, the glossary wins — fix the note. See the "Terminology Glossary" operation below for details.
 
 ## Page Formats
 
@@ -167,6 +168,22 @@ last_updated: YYYY-MM-DD
 ### 逐章精读笔记
 - [Ch.<N> <Chapter Title>](ch<N>-<slug>.md) — <one-line summary>
 ```
+
+### Glossary Page (wiki/glossary.md)
+
+A per-paper terminology glossary that fixes Chinese translations of key English terms so all notes stay consistent. Optional but strongly recommended for book-length works.
+
+```yaml
+---
+type: glossary
+parent: <main-slug>
+title: "术语中英对照表 (Terminology Glossary)"
+created: YYYY-MM-DD
+last_updated: YYYY-MM-DD
+---
+```
+
+Body: grouped tables (by concept category) with columns `| English | 中文（统一译名） | 备注 / 不采用的译法 |`. Include a "维护说明" footer stating that the glossary wins over any conflicting note. Link it from `index.md` under a `## 术语对照` heading.
 
 ## Operations
 
@@ -314,6 +331,8 @@ Review the extracted figures. Select the most informative ones for inclusion in 
 
 **Phase 4 — Write reading notes:**
 
+0. **Read `wiki/glossary.md` first** (if it exists). Apply its translations exactly while writing; add any new key terms you introduce to the glossary and bump its `last_updated`.
+
 1. **Create/update `wiki/<slug>.md`** using the `templates/paper.md` template. Fill in all 8 sections based on Phase 1 analysis.
 
 2. **Image embeds**: Reference extracted figures using relative paths:
@@ -443,6 +462,8 @@ When the human asks to extract/整理/提取 a specific sub-question from the pa
 ---
 
 **Phase 3 — Write topic document:**
+
+0. **Read `wiki/glossary.md` first** (if it exists) and follow its translations; add new key terms you introduce.
 
 1. Create `wiki/topic-<slug>.md` using the `templates/topic.md` template. Fill in all 4 sections:
    - `## 问题描述`: 1-3 sentences defining the sub-question
@@ -678,6 +699,7 @@ When all chapter pages have been covered by part files:
 1. **Read all part files** in `wiki/ch<N>-parts/` in sequence order (part1, part2, ...). These are pure text, so context usage is minimal compared to images.
 
 2. **Merge into final chapter note** (`wiki/ch<N>-<slug>.md`):
+   - **First read `wiki/glossary.md`** (if it exists) and apply its translations throughout; add any new key terms introduced in this chapter to the glossary and bump its `last_updated`.
    - Write complete YAML frontmatter (type, parent, chapter, title, pages, sections, dates).
    - Write `## 章节定位` — synthesize from full-chapter perspective.
    - Merge all `## 概念定义` entries: sort by page number, deduplicate any concepts that appear at part boundaries.

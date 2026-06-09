@@ -124,6 +124,16 @@ incrementally.
 
 ### Step 4 — Write the derivation note
 
+**Before writing, consult the terminology glossary.** If a `wiki/glossary.md` (`type: glossary`)
+exists next to the note, **read it first** and follow its fixed Chinese translations exactly —
+first occurrence annotates the English term (e.g. `构型（configuration）`, `关节（joint）`), later
+occurrences use Chinese only. Whenever you introduce a new key term that is not yet listed,
+**add it** to the appropriate category in `wiki/glossary.md` and bump its `last_updated`. If the
+glossary doesn't exist yet but the book has a stable set of recurring terms, offer to create one
+(grouped tables with columns `| English | 中文（统一译名） | 备注 |` plus a "维护说明" footer
+saying the glossary wins over any conflicting note). The glossary always wins over an individual
+note — if they disagree, fix the note.
+
 Use this structure. It is the format the user converged on after iterating.
 
 ````markdown
@@ -168,8 +178,10 @@ last_updated: YYYY-MM-DD
 - **Never skip a step.** If you write `d/dt(ℓ cos φ) = -ℓ sin φ · φ̇`, that's good. If you
   jump from a constraint to its second derivative in one line, that's bad — show the first
   derivative, then the second, applying product/chain rule term by term.
-- **Annotate the move, not just the result.** Use `\underbrace{...}_{\text{why}}` or a short
-  parenthetical to label *which* rule or identity was used (e.g. "标量等于自身转置，故可合并").
+- **数学推导用公式说话，不用文字。** 除非概念特别复杂、或定理代入特别繁琐确需文字点明，否则推导
+  的每一步都应以公式表达：定义式 → 代入 → 化简 → 结果，链式写成一条长公式（如
+  `\ddot{q} = \Phi_q^{-1}[\dots] = [\dots] = [\dots]`）。**禁止**用 `\underbrace{...}_{\text{...}}`
+  在式中标注来源，也**禁止**"注意/逐项说明/自下而上回代/一气呵成"之类的散文式说明替代公式。
 - **Explain the "why" in prose**, not only the algebra. A line like "物理上，$\Phi_q^T\lambda$
   正是被消去的约束力以乘子形式重新出现" is worth more than another equation.
 - **When a step looks like a trick, give the general method too.** If a hand derivation

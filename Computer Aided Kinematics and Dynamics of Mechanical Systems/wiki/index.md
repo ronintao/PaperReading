@@ -10,10 +10,16 @@ last_updated: 2026-05-19
 ## 主论文
 - [computer-aided-kinematics-and-dynamics](computer-aided-kinematics-and-dynamics.md) (E. J. Haug, 1989, Allyn and Bacon)
 
+## 术语对照
+- [术语中英对照表 (Glossary)](glossary.md) — 统一全套笔记译名（joint=关节、configuration=构型 等）；新笔记须遵循
+
 ## Related 论文解读
 （暂无）
 
 ## Topic 专题
+
+### 章节精读笔记（小节级）
+- [3.1 Basic Concepts in Planar Kinematics](3.1-basic-concepts-in-planar-kinematics.md) — 全书方法论奠基：笛卡尔广义坐标 q=[x,y,φ]、完整约束 Φ(q,t)=0、自由度 DOF=nc−nh、驱动约束、位置/速度/加速度三段式统一求解(共用雅可比 Φ_q)、单摆/曲柄滑块全套推导、斜滑块奇异构型反例(约束必须蕴含铰几何)
 
 ### 逐章精读笔记
 - [Ch.1 Elements of Computer-Aided Kinematics and Dynamics](ch1-elements-of-cakd.md) — 导论：学科范围、工程实例、传统方法vs计算方法、两种坐标方法对比、全书导读
