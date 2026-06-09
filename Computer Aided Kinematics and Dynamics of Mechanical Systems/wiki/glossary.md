@@ -52,6 +52,10 @@ last_updated: 2026-06-09
 | driving constraint | 驱动约束 | |
 | kinematically driven | 运动学驱动的 | |
 | driver | 驱动器 | |
+| redundant constraint | 冗余约束 | 雅可比秩亏时出现 |
+| consistent redundancy | 相容冗余 | 多余但不矛盾，自动满足 |
+| inconsistent redundancy | 不相容冗余 | 多余且矛盾，方程无解 |
+| consistent / inconsistent (constraints) | 相容 / 不相容（约束） | 能否物理装配 |
 
 ## 三、数学与求解 (Math & Solution)
 
@@ -60,6 +64,8 @@ last_updated: 2026-06-09
 | Jacobian (matrix) | 雅可比（矩阵） | $\boldsymbol{\Phi}_\mathbf{q}$ |
 | singular / nonsingular | 奇异 / 非奇异 | |
 | singular configuration | 奇异构型 | |
+| constraint degeneracy | 约束失效 | 奇异构型下约束不再限制其自由度；**不用**自造的"约束不蕴含几何" |
+| rank-deficient | 秩亏 | 雅可比行向量线性相关 |
 | determinant | 行列式 | |
 | position equation | 位置方程 | |
 | velocity equation | 速度方程 | $\boldsymbol{\Phi}_\mathbf{q}\dot{\mathbf{q}}=\boldsymbol{\nu}$ |
@@ -67,6 +73,11 @@ last_updated: 2026-06-09
 | chain rule (of differentiation) | 链式法则 | |
 | coefficient matrix | 系数矩阵 | |
 | Newton–Raphson | 牛顿-拉夫森 | N-R |
+| quadratically convergent | 二阶收敛 | 误差正比于前一次误差平方 |
+| implicit function theorem | 隐函数定理 | 保证解存在唯一 |
+| position / velocity / acceleration analysis | 位置 / 速度 / 加速度分析 | 三段统一框架 |
+| time grid | 时间网格 | 仿真在一串时间点上求解 |
+| Taylor expansion | 泰勒展开 | 二阶展开作初值预测 |
 | differential-algebraic equations (DAE) | 微分-代数方程 | |
 | Lagrange multiplier | 拉格朗日乘子 | |
 | reference frame | 参考系 | |

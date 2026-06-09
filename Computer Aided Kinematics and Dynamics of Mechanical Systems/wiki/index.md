@@ -20,6 +20,7 @@ last_updated: 2026-05-19
 
 ### 章节精读笔记（小节级）
 - [3.1 Basic Concepts in Planar Kinematics](3.1-basic-concepts-in-planar-kinematics.md) — 全书方法论奠基：笛卡尔广义坐标 q=[x,y,φ]、完整约束 Φ(q,t)=0、自由度 DOF=nc−nh、驱动约束、位置/速度/加速度三段式统一求解(共用雅可比 Φ_q)、单摆/曲柄滑块全套推导、斜滑块奇异构型反例(约束必须蕴含铰几何)
+- [3.6 Position, Velocity, and Acceleration Analysis](3.6-position-velocity-acceleration-analysis.md) — 三段统一框架：约束装配 Φ(q,t)=0(方阵)、隐函数定理(解存在唯一性)、Newton-Raphson(二阶收敛)+装配最小化判可装配、速度方程 Φ_q q̇=−Φ_t、加速度方程 Φ_q q̈=γ(逐项链式推导)、冗余约束(相容/不相容)、双摆完整数值算例(发现书中 γ₄ 符号笔误)、时间网格+二阶泰勒预测
 
 ### 逐章精读笔记
 - [Ch.1 Elements of Computer-Aided Kinematics and Dynamics](ch1-elements-of-cakd.md) — 导论：学科范围、工程实例、传统方法vs计算方法、两种坐标方法对比、全书导读
