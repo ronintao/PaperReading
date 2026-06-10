@@ -166,11 +166,6 @@ last_updated: YYYY-MM-DD
 ## 例 <N.M.k>：<Example name>
 > <one-line figure/setup description>
 <full derivation by default>
-
-## 公式编号速查
-| 编号 | 含义 |
-|------|------|
-| (N.M.k) | ... |
 ````
 
 ### Derivation conventions (the heart of this skill)
@@ -194,8 +189,8 @@ last_updated: YYYY-MM-DD
   Only condense examples to a "简述" bullet if the user explicitly says examples can be brief.
 - **Math syntax:** inline `$...$`, block `$$...$$`. Vectors/matrices bold (`\mathbf{}`),
   keep original equation numbers via `\tag{6.3.16}`. Box key results with `\boxed{}`.
-- **Add a `公式编号速查` table** at the end mapping every equation number to a one-line
-  meaning — the user uses it to jump around.
+  Inside Markdown table cells, never use raw `|` (e.g. absolute-value bars) — it breaks the
+  table; write `\lvert ... \rvert` (or `\bigl\lvert ... \bigr\rvert`) instead.
 
 ### Scope discipline
 

@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-06-09
+last_updated: 2026-06-10
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -90,6 +90,13 @@ last_updated: 2026-06-09
 | reference frame | 参考系 | |
 | transformation matrix | 变换矩阵 | $\mathbf{A}(\phi)$ |
 | rotation / orientation | 转动 / 朝向 | |
+| assembly (of a system) | 装配 | 在 $t_0$ 解约束方程求初始构型 |
+| objective function | 目标函数 | $\psi$，最小化对象 |
+| weighting constant / penalty | 权重常数 / 罚因子 | $r>0$，渐增逼迫约束被满足 |
+| least squares | 最小二乘 | 多解时取离 $\mathbf{q}^0$ 最近者 |
+| conjugate gradient minimization | 共轭梯度最小化 | 大规模系统装配用 |
+| Fletcher–Powell algorithm | Fletcher–Powell 算法 | 拟牛顿，迭代更新 $\mathbf{H}$ |
+| gradient | 梯度 | $\psi_\mathbf{q}$，仅需 $\boldsymbol{\Phi}$ 与 $\boldsymbol{\Phi}_\mathbf{q}$ |
 
 ## 四、机构实例 (Mechanism Examples)
 
