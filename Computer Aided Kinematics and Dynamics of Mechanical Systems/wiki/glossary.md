@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-06-10
+last_updated: 2026-06-11
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -97,6 +97,22 @@ last_updated: 2026-06-10
 | conjugate gradient minimization | 共轭梯度最小化 | 大规模系统装配用 |
 | Fletcher–Powell algorithm | Fletcher–Powell 算法 | 拟牛顿，迭代更新 $\mathbf{H}$ |
 | gradient | 梯度 | $\psi_\mathbf{q}$，仅需 $\boldsymbol{\Phi}$ 与 $\boldsymbol{\Phi}_\mathbf{q}$ |
+| Gaussian elimination | 高斯消元 | 逐个消去变量；前向消元 + 回代 |
+| forward elimination | 前向消元 | 化为对角元为 1 的上三角形 |
+| back substitution | 回代 | 从末行逐步往上解出各变量 |
+| pivot element | 主元 | 第 $j$ 步对角元 $a_{jj}^{(j-1)}$；为零则失败、过小则失稳 |
+| row pivoting | 行选主元 | 仅换行，取列内对角及下方绝对值最大元 |
+| full pivoting | 全选主元 | 行+列互换；换列则对应变量也互换 |
+| round-off error | 舍入误差 | 主元过小时被放大 |
+| nonsquare matrix | 非方阵 | $m$ 方程 $n$ 未知数（$m<n$） |
+| rank (row rank) | 秩（行秩） | 前向消元后非零行数 $r$ |
+| dependent / independent variables | 非独立 / 独立变量 | $\mathbf{u}$ 由 $\mathbf{v}$ 决定；变量被划分 |
+| partition (of variables) | 变量划分 | $\mathbf{x}\to(\mathbf{u},\mathbf{v})$；§4.6 冗余约束基础 |
+| ill-conditioned | 病态 | 右下零块近零但非舍入零、右端量级大 |
+| L–U factorization | L–U 分解 | $\mathbf{A}=\mathbf{LU}$，$\mathbf{L}$ 单位下三角、$\mathbf{U}$ 上三角 |
+| Crout's method | Crout 方法 | 原地递归算 $\mathbf{L},\mathbf{U}$（Eq. 4.4.20） |
+| auxiliary matrix | 辅助矩阵 | $\mathbf{B}$，合并存放 $\mathbf{L}$ 与 $\mathbf{U}$ 元素 |
+| Cramer's rule | Cramer 法则 | 最著名但最低效 |
 
 ## 四、机构实例 (Mechanism Examples)
 
