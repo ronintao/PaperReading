@@ -116,6 +116,11 @@ last_updated: 2026-06-11
 | inflection point | 拐点 | 二阶导变号点；根在此处 N-R 振荡发散（Fig. 4.5.2） |
 | equation / solution error tolerance | 方程 / 解误差容限 | $\varepsilon_e$ 控 $\lvert\Phi\rvert$、$\varepsilon_s$ 控 $\lvert q^{(i)}-q^{(i-1)}\rvert$，二者皆满足才停 |
 | Taylor linearization | 泰勒线性化 | 在 $q^{(i)}$ 处一阶展开丢高阶项，化非线性为线性 |
+| row rank | 行秩 | 雅可比独立行数；高斯消元后非零行数 |
+| full row rank | 行满秩 | 行秩 $=$ 行数；约束彼此独立、无冗余 |
+| redundant constraint elimination algorithm | 冗余约束消除算法 | §4.6 的 6 步流程：测秩→剔冗余运动学→报独立坐标→接驱动→剔冗余驱动→查够用 |
+| redundant driving constraint | 冗余驱动约束 | Eq. 4.6.8 中 $\boldsymbol{\Phi}^D_{\mathbf{v}'}$ 零行对应者；须移除并替换 |
+| restricted (column-only) pivoting | 受限选主元 | 走过运动学约束行时只许列交换，越过后再全选主元，防止误剔运动学约束 |
 
 ## 四、机构实例 (Mechanism Examples)
 
