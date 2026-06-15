@@ -138,6 +138,26 @@ last_updated: 2026-06-11
 | slider | 滑块 | |
 | slide axis | 滑轨 | |
 
+## 五、动力学 (Dynamics)
+
+| English | 中文（统一译名） | 备注 / 不采用的译法 |
+|---------|----------------|--------------------|
+| equations of motion | 运动方程 | |
+| variational equations of motion | 变分运动方程 | 虚功形式，$\delta\mathbf{q}^T[\dots]=0$ |
+| virtual work | 虚功 | $\delta W$ |
+| principle of virtual work | 虚功原理 | 即达朗贝尔原理 |
+| D'Alembert's principle | 达朗贝尔原理 | 惯性力虚功 = 外力虚功 |
+| internal / external force | 内力 / 外力 | 内力沿两点连线，虚功为零 |
+| centroid / center of mass | 质心 | 首次可标 (centroid)；$\int_m\mathbf{s}'^P dm=\mathbf{0}$ |
+| centroidal reference frame | 质心参考系 | 原点在质心的随体系 $x'\text{-}y'$ |
+| polar moment of inertia | 极转动惯量 | $J'$；**统一用**"极转动惯量"，不混用"极惯性矩" |
+| parallel axis theorem | 平行轴定理 | $J''=J'+m\lvert\boldsymbol{\rho}''\rvert^2$ |
+| composite body / component | 组合体 / 部件 | 由标准形状子部件拼成 |
+| void | 空洞 | 计算惯性时按负质量处理 |
+| resultant force / torque | 合力 / 合力矩 | $\mathbf{F}$、$n$ |
+| Newton–Euler equations | 牛顿-欧拉方程 | $m\ddot{\mathbf{r}}=\mathbf{F}$，$J'\ddot{\phi}=n$ |
+| generalized force | 广义力 | $\mathbf{Q}$，与广义坐标 $\mathbf{q}$ 配对 |
+
 ---
 
 ## 维护说明
