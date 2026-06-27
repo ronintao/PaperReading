@@ -17,9 +17,9 @@ tags:
   - ocr
   - math
   - study-notes
-version: 1.0.0
+version: 1.1.0
 status: published
-changelog: "Initial release: scanned/text-layer textbook section export with step-by-step derivations."
+changelog: "1.1.0: add mandatory figure crop+embed step (3.5) matching the 3.x/4.x note convention. 1.0.0: initial scanned/text-layer textbook section export with step-by-step derivations."
 ---
 
 # Textbook Derivation Notes
@@ -28,7 +28,7 @@ changelog: "Initial release: scanned/text-layer textbook section export with ste
 
 The user owns a scanned textbook PDF (image-only, no text layer) and wants a **specific
 section or page range** turned into a high-quality Markdown study note. The defining
-characteristic of a good result here is twofold:
+characteristic of a good result here is threefold:
 
 1. **Complete derivations** — every formula is derived step by step, no jumps. When a step
    uses the chain rule, product rule, a transpose identity, or term regrouping, that move is
@@ -36,6 +36,9 @@ characteristic of a good result here is twofold:
 2. **Prose + formulas together** — the note is not a bare wall of equations. Each subsection
    opens with a short "思路/intuition" paragraph explaining *what problem is being solved and
    why*, then carries the reader through the math.
+3. **Figures cropped and embedded** — every figure the section references is cropped from the
+   rendered pages into the shared `wiki/figures/<book-main-slug>/` folder and embedded at its
+   first citation (see Step 3.5). A derivation note without its figures is incomplete.
 
 This skill captures a workflow that was validated end-to-end on a multibody-dynamics
 textbook. Follow it, but adapt page offsets and structure to the book at hand.
@@ -122,6 +125,73 @@ headings. Pay special attention to:
 If the requested range spans more than ~15 pages, read in multiple batches and assemble
 incrementally.
 
+### Step 3.5 — Crop and embed the section's figures (do NOT skip)
+
+A derivation note **without figures is incomplete**. Every figure the section references
+(`Fig. 6.1.2`, `图 3.6.1`, tables that are drawn as figures, etc.) must be cropped from the
+rendered pages and embedded at the point it is first cited. This is the convention the user
+converged on across the 3.x / 4.x / 6.x notes — match it exactly.
+
+**1. Where figures live.** Keep one **shared** figure folder for the whole book, named by the
+book's main wiki slug, not one folder per section:
+
+```
+wiki/figures/<book-main-slug>/fig_<chap>_<sec>_<idx>_<short-slug>.png
+```
+
+Examples (real): `fig_3_6_1_block_sliding.png`, `fig_4_5_1_newton_raphson.png`,
+`fig_6_1_2_tractor.png`. The `<chap>_<sec>_<idx>` mirrors the book's figure number
+(`Fig. 6.1.2` → `6_1_2`); `<short-slug>` is a 1–3 word English description.
+
+**2. How to crop.** Write a tiny per-section PIL script next to the PDF named
+`crop_figs_<sec>.py` (e.g. `crop_figs_61.py`) using fractional bounding boxes over the
+rendered `temp_sec*/book_XXX.png` pages. This is the exact helper the existing scripts use —
+reuse it verbatim:
+
+```python
+from PIL import Image
+import os
+
+base = os.path.dirname(os.path.abspath(__file__))
+out = os.path.join(base, 'wiki', 'figures', '<book-main-slug>')
+os.makedirs(out, exist_ok=True)
+
+
+def crop(src, box, name):
+    im = Image.open(os.path.join(base, src))
+    w, h = im.size
+    l, t, r, b = box                       # fractional (left, top, right, bottom) in [0,1]
+    im.crop((int(l * w), int(t * h), int(r * w), int(b * h))).save(os.path.join(out, name))
+    print('wrote', name)
+
+
+# read the rendered page first to eyeball the figure's fractional box, then:
+crop('temp_sec61/book_205.png', (0.20, 0.55, 0.85, 0.92), 'fig_6_1_2_tractor.png')
+```
+
+Determine each box by **reading the rendered page image** and estimating where the figure
+sits (top/bottom halves are common; a full-width figure is roughly `l≈0.18, r≈0.86`). One
+`crop(...)` call per figure. Run the script with `python crop_figs_<sec>.py`.
+
+**3. How to embed.** Standard markdown embed (NOT Obsidian `![[...]]`), placed **right where
+the figure is first referenced** — typically just after the example's one-line `> setup`
+blockquote and before the equations:
+
+```markdown
+![图 6.1.2 拖拉机平面运动](figures/<book-main-slug>/fig_6_1_2_tractor.png)
+```
+
+- Alt text = `图 <N.M.k> <中文标题>` (or `Fig. <N.M.k> <中文标题>`), matching the book caption.
+- For **conceptual** figures (geometry, convergence behaviour, etc.), follow the image with a
+  bold caption-explanation line, e.g. `**图 4.5.2（拐点 inflection point）**：当解恰是曲线的
+  拐点时，切线交点在解两侧来回振荡……`. For plain **setup** figures (a mechanism sketch), the
+  embed alone is enough — no separate caption line needed.
+- A figure that combines two book figures can share one crop + one alt (e.g.
+  `图 3.7.1 锁死构型 / 图 3.7.2 分岔构型`).
+
+**Verify** every embedded path resolves to a file that the crop script actually wrote before
+declaring the note done.
+
 ### Step 4 — Write the derivation note
 
 **Before writing, consult the terminology glossary.** If a `wiki/glossary.md` (`type: glossary`)
@@ -165,6 +235,7 @@ last_updated: YYYY-MM-DD
 
 ## 例 <N.M.k>：<Example name>
 > <one-line figure/setup description>
+![图 <N.M.k> <中文标题>](figures/<book-main-slug>/fig_<chap>_<sec>_<idx>_<slug>.png)
 <full derivation by default>
 ````
 
@@ -219,4 +290,4 @@ Common follow-up requests and how to handle them:
 
 Leave the rendered page images in place unless asked to remove them. If the user does ask,
 delete only the temp render folder you created (e.g. `temp_sec/`, `probe_*.png`) — never the
-source PDF or the note.
+source PDF, the note, the `crop_figs_<sec>.py` scripts, or anything under `wiki/figures/`.
