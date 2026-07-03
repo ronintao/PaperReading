@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-06-11
+last_updated: 2026-07-01
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -52,6 +52,13 @@ last_updated: 2026-06-11
 | driving constraint | 驱动约束 | |
 | kinematically driven | 运动学驱动的 | |
 | driver | 驱动器 | |
+| absolute driver | 绝对驱动 | 时变绝对约束，输入 $C_k(t)$；Eqs. 3.5.1–3.5.3 |
+| relative driver | 相对驱动 | 时变相对约束；Eqs. 3.5.5–3.5.8 |
+| relative distance driver | 相对距离驱动 | $\Phi^{rdd}$，$C_4(t)>0$；液压伸缩杆 |
+| revolute-rotational driver | 转动关节-转角驱动 | $\Phi^{rrd}$，控制转动关节两体的相对角；旋转执行器 |
+| translational-distance driver | 平移-距离驱动 | $\Phi^{tdd}$，控制移动关节的相对平移；数控进给轴 |
+| actuator | 执行器 | 液压、电动、伺服等施加驱动量的物理器件 |
+| attachment angle | 安装角 | $\theta_i, \theta_j$，执行器在体上的物理安装方向 |
 | redundant constraint | 冗余约束 | 雅可比秩亏时出现 |
 | consistent redundancy | 相容冗余 | 多余但不矛盾，自动满足 |
 | inconsistent redundancy | 不相容冗余 | 多余且矛盾，方程无解 |
