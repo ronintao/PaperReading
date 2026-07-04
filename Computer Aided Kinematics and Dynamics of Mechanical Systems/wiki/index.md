@@ -2,7 +2,7 @@
 type: index
 title: "Computer Aided Kinematics and Dynamics of Mechanical Systems, Volume I: Basic Methods"
 wiki_language: zh-CN
-last_updated: 2026-07-01
+last_updated: 2026-07-03
 ---
 
 # 论文解读导航
@@ -20,6 +20,7 @@ last_updated: 2026-07-01
 
 ### 章节精读笔记（小节级）
 - [3.1 Basic Concepts in Planar Kinematics](3.1-basic-concepts-in-planar-kinematics.md) — 全书方法论奠基：笛卡尔广义坐标 q=[x,y,φ]、完整约束 Φ(q,t)=0、自由度 DOF=nc−nh、驱动约束、位置/速度/加速度三段式统一求解(共用雅可比 Φ_q)、单摆/曲柄滑块全套推导、斜滑块奇异构型反例(约束必须蕴含铰几何)
+- [3.2 Constraints Between a Body and Ground (Absolute Constraints)](3.2-absolute-constraints.md) — 体-地约束库：绝对距离 Φ^ad(Eq 3.2.1)+绝对位置 Φ^ax/Φ^ay(Eqs 3.2.3-4)+绝对角度 Φ^aφ(Eq 3.2.6)四种约束，逐条推导雅可比(链式+B_i=dA/dφ)、ν=0、γ 逐项时间二阶求导+物理向心加速度诠释、C₃>0 单方程记账条件、单摆用两条位置约束的等价表述、滑块 y=0+φ=0 得到沿 x 轴 1 DOF 的叠加建模
 - [3.5 Driving Constraints](3.5-driving-constraints.md) — 驱动约束库：绝对/相对坐标驱动+相对距离驱动+转动关节转角驱动+平移-距离驱动的方程与雅可比、Φ^d = Φ(q) − C(t) 分离形式共用同一 Φ_q、双体曲柄滑块+四杆机构+挖掘机双液压缸+挖掘机混合驱动+起重机吊臂五个完整例题(速度方程逐步求解、发现书中 φ̇₃ 系数与 B_i 转置的排版遗漏)、速度/加速度右端 ν^d=Ċ、γ^d=γ+C̈及 Table 3.5.1 汇总
 - [3.6 Position, Velocity, and Acceleration Analysis](3.6-position-velocity-acceleration-analysis.md) — 三段统一框架：约束装配 Φ(q,t)=0(方阵)、隐函数定理(解存在唯一性)、Newton-Raphson(二阶收敛)+装配最小化判可装配、速度方程 Φ_q q̇=−Φ_t、加速度方程 Φ_q q̈=γ(逐项链式推导)、冗余约束(相容/不相容)、双摆完整数值算例(发现书中 γ₄ 符号笔误)、时间网格+二阶泰勒预测
 - [3.7 Singular Configurations](3.7-singular-configurations.md) — 奇异构型专节：锁死/分岔两种病态、两体曲柄滑块闭式解 q=cosωt∓√(cos²ωt+ℓ²−1)(判别式定锁死/分岔)、锁死判据 Φ_q=0且Φ_t≠0⇒q̇→∞、雅可比行列式 |Φ_q|=−ℓsinφ₂、速度方程+择一定理+虚位移(行列式变号判分岔)、设计变更 Φ_q δq=−Φ_b δb(多解/无解)、五杆平行四边形冗余约束(秩亏代数证明)

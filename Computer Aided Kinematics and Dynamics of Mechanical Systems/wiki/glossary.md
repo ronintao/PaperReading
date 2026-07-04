@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-07-01
+last_updated: 2026-07-03
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -48,6 +48,9 @@ last_updated: 2026-07-01
 | stationary constraint | 定常约束 | 不显含时间 |
 | time-dependent constraint | 时变约束 | 显含时间 |
 | absolute constraint | 绝对约束 | 体与地面 |
+| absolute distance constraint | 绝对距离约束 | $\Phi^{ad}$；点 $P_i$ 到定点 $\mathbf{C}$ 距离 $=C_3>0$；Eq. 3.2.1 |
+| absolute position constraint | 绝对位置约束 | $\Phi^{ax},\Phi^{ay}$；点 $P_i$ 的 $x$ 或 $y$ 坐标固定；Eqs. 3.2.3–3.2.4 |
+| absolute angular constraint | 绝对角度约束 | $\Phi^{a\phi}$；体 $i$ 转角固定；Eq. 3.2.6 |
 | relative constraint | 相对约束 | 体与体 |
 | driving constraint | 驱动约束 | |
 | kinematically driven | 运动学驱动的 | |
