@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-07-03
+last_updated: 2026-07-23
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -131,6 +131,15 @@ last_updated: 2026-07-03
 | redundant constraint elimination algorithm | 冗余约束消除算法 | §4.6 的 6 步流程：测秩→剔冗余运动学→报独立坐标→接驱动→剔冗余驱动→查够用 |
 | redundant driving constraint | 冗余驱动约束 | Eq. 4.6.8 中 $\boldsymbol{\Phi}^D_{\mathbf{v}'}$ 零行对应者；须移除并替换 |
 | restricted (column-only) pivoting | 受限选主元 | 走过运动学约束行时只许列交换，越过后再全选主元，防止误剔运动学约束 |
+| DADS (Dynamic Analysis and Design System) | DADS（动态分析与设计系统） | 实现本书理论的大型运动学/动力学代码；平面例见第 5、8 章，空间见第 10、12 章 |
+| preprocessor / postprocessor | 前处理器 / 后处理器 | DADS 三大部件之二；前者收集数据、后者显示结果（Fig. 4.1.1） |
+| kinematic analysis program | 运动学分析程序 | DADS 三大部件之一；内部含 ANALYSIS/JUNCTION/MODULES 三层（Fig. 4.1.2） |
+| ANALYSIS / JUNCTION / MODULES | 分析 / 枢纽 / 模块 | 运动学分析程序三层结构：ANALYSIS 控流程、JUNCTION 分派、MODULES 只算各自项 |
+| flag | 标志（整型） | ANALYSIS 用其标记当前分析阶段，据以向 JUNCTION 下达组装指令 |
+| nonzero entry scheme | 非零条目方案 | 每个关节模块只吐出自己那几个雅可比非零条目及行列指针；§4.2 |
+| four modes of kinematic analysis | 运动学分析四种模式 | 装配、位置、速度、加速度；前三/四模式难度递降 |
+| assembled configuration | 装配构型 | 满足全部约束的协调构型；装配模式之目标 |
+| assembly minimization | 装配最小化 | §3.6；把约束违背量做目标函数极小化，比直接 Newton 更稳健 |
 
 ## 四、机构实例 (Mechanism Examples)
 
