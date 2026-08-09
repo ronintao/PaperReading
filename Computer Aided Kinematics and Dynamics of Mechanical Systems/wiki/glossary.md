@@ -4,6 +4,7 @@ parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
 last_updated: 2026-08-09
+
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -185,6 +186,9 @@ last_updated: 2026-08-09
 | strain energy | 应变能 | $SE$；线性弹簧 $\tfrac12 k(\ell-\ell_0)^2$（Eq. 6.5.4） |
 | torsional / rotational spring | 扭转弹簧 | 常数 $k_\theta$，储能 $\tfrac12 k_\theta(\theta-\theta_0)^2$ |
 | double pendulum | 双摆 | 两杆铰接；例 6.5.2 |
+| constraint reaction force | 约束反力 | 打断约束 $k$ 后作用于两体的力；$\mathbf{F}_i''^k=-\mathbf{C}_i^T\mathbf{A}_i^T\boldsymbol{\Phi}_{\mathbf{r}_i}^{kT}\boldsymbol{\lambda}^k$（Eq. 6.6.8） |
+| joint reaction torque | 关节反力矩 | $T_i''^k$（Eq. 6.6.9）；转动关节为 0，移动关节一般非零 |
+| body-fixed joint frame | 关节随体系 | $x''\text{-}y''$，原点在关节作用点 $P$；反力/反力矩在此系中输出 |
 
 ---
 
