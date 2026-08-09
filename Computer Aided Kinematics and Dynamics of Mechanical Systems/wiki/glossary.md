@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-07-23
+last_updated: 2026-08-09
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -176,6 +176,15 @@ last_updated: 2026-07-23
 | resultant force / torque | 合力 / 合力矩 | $\mathbf{F}$、$n$ |
 | Newton–Euler equations | 牛顿-欧拉方程 | $m\ddot{\mathbf{r}}=\mathbf{F}$，$J'\ddot{\phi}=n$ |
 | generalized force | 广义力 | $\mathbf{Q}$，与广义坐标 $\mathbf{q}$ 配对 |
+| equilibrium | 平衡 | $\ddot{\mathbf{q}}=\dot{\mathbf{q}}=\mathbf{0}$；外力下保持静止 |
+| equilibrium equations | 平衡方程 | $\boldsymbol{\Phi}_\mathbf{q}^T\boldsymbol{\lambda}=\mathbf{Q}^A$（Eq. 6.5.2）；稳定/不稳定平衡皆满足 |
+| stable / unstable equilibrium | 稳定 / 不稳定平衡 | 扰动后回落为稳定；倒立为不稳定 |
+| conservative system | 保守系统 | 力可由势能导出，功与路径无关 |
+| principle of minimum total potential energy | 总势能最小原理 | 稳定平衡 $\Leftrightarrow$ 总势能取严格局部极小 |
+| total potential energy (TPE) | 总势能 | $TPE=SE-W(F)$（Eq. 6.5.3） |
+| strain energy | 应变能 | $SE$；线性弹簧 $\tfrac12 k(\ell-\ell_0)^2$（Eq. 6.5.4） |
+| torsional / rotational spring | 扭转弹簧 | 常数 $k_\theta$，储能 $\tfrac12 k_\theta(\theta-\theta_0)^2$ |
+| double pendulum | 双摆 | 两杆铰接；例 6.5.2 |
 
 ---
 
