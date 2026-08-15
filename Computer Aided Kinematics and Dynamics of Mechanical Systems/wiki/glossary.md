@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-08-09
+last_updated: 2026-08-15
 
 ---
 
@@ -135,6 +135,8 @@ last_updated: 2026-08-09
 | DADS (Dynamic Analysis and Design System) | DADS（动态分析与设计系统） | 实现本书理论的大型运动学/动力学代码；平面例见第 5、8 章，空间见第 10、12 章 |
 | preprocessor / postprocessor | 前处理器 / 后处理器 | DADS 三大部件之二；前者收集数据、后者显示结果（Fig. 4.1.1） |
 | kinematic analysis program | 运动学分析程序 | DADS 三大部件之一；内部含 ANALYSIS/JUNCTION/MODULES 三层（Fig. 4.1.2） |
+| dynamic analysis program | 动力学分析程序 | DADS 三大部件之一（动力学侧）；同含 ANALYSIS/JUNCTION/MODULES 三层（Fig. 7.1.2） |
+| force element module | 力元模块 | MODULES 层组件；生成运动方程所需的力数据 |
 | ANALYSIS / JUNCTION / MODULES | 分析 / 枢纽 / 模块 | 运动学分析程序三层结构：ANALYSIS 控流程、JUNCTION 分派、MODULES 只算各自项 |
 | flag | 标志（整型） | ANALYSIS 用其标记当前分析阶段，据以向 JUNCTION 下达组装指令 |
 | nonzero entry scheme | 非零条目方案 | 每个关节模块只吐出自己那几个雅可比非零条目及行列指针；§4.2 |
@@ -163,6 +165,11 @@ last_updated: 2026-08-09
 | English | 中文（统一译名） | 备注 / 不采用的译法 |
 |---------|----------------|--------------------|
 | equations of motion | 运动方程 | |
+| three modes of dynamic analysis | 动力学分析三模式 | 平衡 / 逆动力学 / 动力学（§7.1） |
+| equilibrium analysis | 平衡分析 | 求外力下静止构型；经动态沉降或总势能最小化 |
+| dynamic analysis | 动力学分析 | 给定力，积分混合 DAE 求随时间运动 |
+| inverse dynamic analysis | 逆动力学分析 | 运动由运动学定死，反求所需拉格朗日乘子与力/力矩 |
+| dynamic settling | 动态沉降 | 用动力学积分让系统自然稳定到平衡；平衡分析两法之一 |
 | variational equations of motion | 变分运动方程 | 虚功形式，$\delta\mathbf{q}^T[\dots]=0$ |
 | virtual work | 虚功 | $\delta W$ |
 | principle of virtual work | 虚功原理 | 即达朗贝尔原理 |
