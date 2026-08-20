@@ -3,8 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-08-15
-
+last_updated: 2026-08-20
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -143,6 +142,19 @@ last_updated: 2026-08-15
 | four modes of kinematic analysis | 运动学分析四种模式 | 装配、位置、速度、加速度；前三/四模式难度递降 |
 | assembled configuration | 装配构型 | 满足全部约束的协调构型；装配模式之目标 |
 | assembly minimization | 装配最小化 | §3.6；把约束违背量做目标函数极小化，比直接 Newton 更稳健 |
+| initial-value problem | 初值问题 | $\dot{\mathbf{x}}=\mathbf{f}(\mathbf{x},t)$ 加初值 $\mathbf{x}(t_0)=\mathbf{x}^0$（Eq. 7.4.1）；非线性 ODE 仅保证**局部**解 |
+| polynomial interpolation | 多项式插值 | 用多项式 $P(t)$ 在若干点与 $f$（及其导数）相等来逼近 $f$；数值积分的地基 |
+| Taylor polynomial | 泰勒多项式 | 单点、多阶导数逼近（Eq. 7.4.2）；理论用，不宜作通用积分 |
+| Newton backward difference polynomial | Newton 后向差分多项式 | 多点、函数值逼近（Eq. 7.4.4）；Adams 族基础 |
+| backward difference | 后向差分 | $\nabla^i f_n$，递推 $\nabla^i f_n=\nabla^{i-1}f_n-\nabla^{i-1}f_{n-1}$ |
+| interpolation error | 插值误差 | $f(t)-P_k(t)\approx\frac{f^{(k)}(\xi)}{k!}\prod(t-t_{n-j})$（Eq. 7.4.8）；可用后向差分实时估计 |
+| Adams–Bashforth predictor | Adams–Bashforth 预测器 | 显式多步公式 $\mathbf{x}_{n+1}^p=\mathbf{x}_n+h\sum_{i=1}^{k}\gamma_{i-1}\nabla^{i-1}\mathbf{f}_n$（Eq. 7.4.11）；$k=1$ 即 Euler |
+| Adams–Moulton corrector | Adams–Moulton 校正器 | 隐式公式 $\mathbf{x}_{n+1}^c=\mathbf{x}_n+h\sum_{i=1}^{k+1}\gamma_{i-1}^*\nabla^{i-1}\mathbf{f}_{n+1}^p$（Eq. 7.4.15）；比预测器高一阶 |
+| explicit / implicit method | 显式 / 隐式方法 | 显式：$\mathbf{x}_{n+1}$ 只在左端由已知量定；隐式：两端都含 $\mathbf{x}_{n+1}$ |
+| Euler method | Euler 法 | $\mathbf{x}_{n+1}=\mathbf{x}_n+h\mathbf{f}_n$；$k=1$ 的 Adams–Bashforth |
+| local truncation error | 局部截断误差 | 用插值多项式逼近导数所致；预测器 $\sim h^{k+1}$（Eq. 7.4.13），校正器 $\sim h^{k+2}$（Eq. 7.4.16） |
+| self-starting algorithm | 自启动算法 | 从 $k=1$ 逐步升阶，仅需微分方程与初值 |
+| PECE method | PECE 方法 | Predict–Evaluate–Correct–Evaluate，每步两次 $\mathbf{f}$ 求值；$k$ 阶预测 + $(k+1)$ 阶校正为最佳配对 |
 
 ## 四、机构实例 (Mechanism Examples)
 
@@ -196,6 +208,15 @@ last_updated: 2026-08-15
 | constraint reaction force | 约束反力 | 打断约束 $k$ 后作用于两体的力；$\mathbf{F}_i''^k=-\mathbf{C}_i^T\mathbf{A}_i^T\boldsymbol{\Phi}_{\mathbf{r}_i}^{kT}\boldsymbol{\lambda}^k$（Eq. 6.6.8） |
 | joint reaction torque | 关节反力矩 | $T_i''^k$（Eq. 6.6.9）；转动关节为 0，移动关节一般非零 |
 | body-fixed joint frame | 关节随体系 | $x''\text{-}y''$，原点在关节作用点 $P$；反力/反力矩在此系中输出 |
+| system equilibrium equations | 系统平衡方程 | $\boldsymbol\Phi_{\mathbf q}^T\boldsymbol\lambda=\mathbf Q^A,\ \boldsymbol\Phi=\mathbf 0$（Eq. 7.5.2）；对 $\mathbf q,\boldsymbol\lambda$ 非线性，稳定/不稳定平衡皆满足，故直接求解不推荐 |
+| dynamic settling | 动态沉降 | 积分运动方程至 $\dot{\mathbf q}=\ddot{\mathbf q}=\mathbf 0$；最普适，可加人为阻尼加速；多平衡态时唯一有效法 |
+| minimum total potential energy | 总势能最小 | 仅保守系统；稳定平衡 $\Leftrightarrow V(\mathbf q_e)<V(\mathbf q)$（Eq. 7.5.3）在 $\boldsymbol\Phi=\mathbf 0$ 上 |
+| work function | 功函数 | $W$；力做功的位置函数，势能取其负 $V=-W$（常力 Eq. 7.5.6–7.5.7） |
+| potential energy of a force | 力的势能 | 常力 $V_{\mathbf F}=-\mathbf F^T\mathbf r^P$；平移元件 $V_f$（Eq. 7.5.11）；扭转元件 $V_\tau$（Eq. 7.5.12） |
+| gradient of total potential energy | 总势能梯度 | $V_{\mathbf q}^T=-\mathbf Q^A$（Eq. 7.5.14）；等于广义外力的相反数，故建方程时现成可用 |
+| constrained / unconstrained minimization | 约束 / 无约束极小化 | 平衡 = 在 $\boldsymbol\Phi=\mathbf 0$ 上极小化 $V$；经坐标划分转为对独立坐标 $\mathbf v$ 的无约束极小化 $V(\mathbf v)$（Eq. 7.5.22） |
+| generalized coordinate partitioning | 广义坐标划分 | $\mathbf q=[\mathbf u^T,\mathbf v^T]^T$，$\mathbf u$ 非独立、$\mathbf v$ 独立；$\boldsymbol\Phi_{\mathbf u}$ 取非奇异（§7.2） |
+| influence coefficient matrix | 影响系数矩阵 | $\mathbf H=-\boldsymbol\Phi_{\mathbf u}^{-1}\boldsymbol\Phi_{\mathbf v}$（Eq. 7.5.17），$\mathrm d\mathbf u=\mathbf H\,\mathrm d\mathbf v$；逐列解 $\boldsymbol\Phi_{\mathbf u}\mathbf H^{(i)}=-\boldsymbol\Phi_{\mathbf v}^{(i)}$ |
 
 ---
 

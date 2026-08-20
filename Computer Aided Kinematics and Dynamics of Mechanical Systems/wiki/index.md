@@ -28,6 +28,8 @@ last_updated: 2026-07-03
 - [4.5 Newton–Raphson Method for Nonlinear Equations](4.5-newton-raphson-method-nonlinear-equations.md) — 非线性方程 Φ(q)=0 求解：一阶泰勒线性化+迭代、单变量公式 q⁽ⁱ⁺¹⁾=q⁽ⁱ⁾−Φ/Φ_q(4.5.5)、二阶收敛(4.5.6)、四图示警(拐点振荡/多解依赖初值/极值点发散)、n 元解线性方程 Φ_q Δq=−Φ(4.5.8)再 q⁽ⁱ⁺¹⁾=q⁽ⁱ⁾+Δq(把§4.4线性求解器接入位置分析)
 - [6.1 Equations of Motion of a Planar Rigid Body](6.1-equations-of-motion-planar-rigid-body.md) — 单刚体动力学起点：微元牛顿方程→虚功消内力(刚体内力虚功为零)→达朗贝尔原理(6.1.4)、广义坐标展开变分方程(6.1.11)、质心坐标化简(B^T B=I)→牛顿-欧拉方程 mr̈=F, J'φ̈=n(6.1.19)、质心式(6.1.20)/平行轴定理 J''=J'+m|ρ''|²(6.1.22)/对称轴含质心、组合体叠加(6.1.23-25)，例6.1.1拖拉机+例6.1.2组合摆(J'=1.966)
 - [7.1 Organization of Computations](7.1-organization-of-computations.md) — 第7章开篇+7.1节：动力学分析三模式(平衡/逆动力学/动力学)、DAE"1981年才被认识不能当ODE处理"、DADS三段式(前处理器/动力学分析程序/后处理器,Fig.7.1.1)、分析程序三层(ANALYSIS/JUNCTION/MODULES,Fig.7.1.2)、五阶段详细计算流(Fig.7.1.3)、平衡=动态沉降/总势能最小化、动力学=解加速度→积分位置速度、逆动力学=解运动学+装配运动方程求乘子(无公式,纯计算组织)
+- [7.3 Algorithms for Solving Differential–Algebraic Equations](7.3-algorithms-for-solving-dae.md) — DAE四算法：二阶DAE降为一阶IVP(丢失位置/速度约束→漂移)、广义坐标分块法(积分独立坐标v+Newton-Raphson强制校正依赖坐标u,可靠但慢)、直接积分法(无视漂移,最快)、Baumgarte约束稳定化(加速度约束加PI反馈 Φ̈+2αΦ̇+β²Φ=0→γ̂,Eq.7.3.8)、混合算法(常态稳定化/超差回拉/奇异退化,DADS采用)、初值问题存在性定理(仅局部解)
+- [7.4 Numerical Integration of First-Order Initial-Value Problems](7.4-numerical-integration-first-order-ivp.md) — 一阶IVP数值积分：多项式插值地基(Taylor单点/多阶导 vs Newton后向差分多点/函数值,插值误差7.4.8)、Adams-Bashforth显式预测器(Eq.7.4.11,系数γ_i与h无关证明,k=1即Euler,自启动升阶,截断误差~h^{k+1})、Adams-Moulton隐式校正器(Eq.7.4.15,纳入f_{n+1}^p精度高一阶~h^{k+2})、PECE(k阶预测+k+1阶校正最佳配对,截断误差自适应调h/k,倒车类比Fig.7.4.2)、逐例手算e^t(例7.4.1-7.4.5)
 
 ### 逐章精读笔记
 - [Ch.1 Elements of Computer-Aided Kinematics and Dynamics](ch1-elements-of-cakd.md) — 导论：学科范围、工程实例、传统方法vs计算方法、两种坐标方法对比、全书导读
