@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-08-20
+last_updated: 2026-08-24
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -171,6 +171,9 @@ last_updated: 2026-08-20
 | cam-follower | 凸轮-挺杆 | |
 | slider | 滑块 | |
 | slide axis | 滑轨 | |
+| compressor | 压缩机 | 曲柄滑块的一种应用（§8.2）；滑块在压缩腔内往复 |
+| flywheel | 飞轮 | 大转动惯量储能件；平抑角速度波动、渡过高阻力半循环（§8.2） |
+| shaper | 牛头刨床 | 快回机构的金属切削应用（§8.3, Fig 1.1.8） |
 
 ## 五、动力学 (Dynamics)
 
@@ -217,6 +220,15 @@ last_updated: 2026-08-20
 | constrained / unconstrained minimization | 约束 / 无约束极小化 | 平衡 = 在 $\boldsymbol\Phi=\mathbf 0$ 上极小化 $V$；经坐标划分转为对独立坐标 $\mathbf v$ 的无约束极小化 $V(\mathbf v)$（Eq. 7.5.22） |
 | generalized coordinate partitioning | 广义坐标划分 | $\mathbf q=[\mathbf u^T,\mathbf v^T]^T$，$\mathbf u$ 非独立、$\mathbf v$ 独立；$\boldsymbol\Phi_{\mathbf u}$ 取非奇异（§7.2） |
 | influence coefficient matrix | 影响系数矩阵 | $\mathbf H=-\boldsymbol\Phi_{\mathbf u}^{-1}\boldsymbol\Phi_{\mathbf v}$（Eq. 7.5.17），$\mathrm d\mathbf u=\mathbf H\,\mathrm d\mathbf v$；逐列解 $\boldsymbol\Phi_{\mathbf u}\mathbf H^{(i)}=-\boldsymbol\Phi_{\mathbf v}^{(i)}$ |
+| inertia properties | 惯性性质 | 各刚体的质量与极转动惯量；动力学建模四步之一（§8.1） |
+| composite joints / massless links | 复合关节 / 无质量连杆 | 把两基本约束合成一个以简化模型；代价是忽略连杆质量特性（§8.1） |
+| lumped mass approximation | 集中质量近似 | 把连杆质量分配为端点集中质量以改善近似；非精确等价于真实质量分布（§8.1） |
+| qualitative understanding | 定性理解 | 凭经验判断动力学结果合理性、指导设计的直觉；工具正确不能替代（§8.1） |
+| parameter study | 参数研究 | 系统改变尺寸/质量/力，观察对动力学响应的影响（§8.2–§8.5 贯穿手法） |
+| gas force | 气体力 | 压缩气体对滑块的阻力 $F_c$；单向、依速度门控（仅 $\dot x_3>0$ 作用，Eq. 8.2.1） |
+| compression / intake stroke | 压缩 / 进气冲程 | 滑块向右压气（$\dot x_3>0$）/ 向左吸气（$\dot x_3\le0$，无气体力） |
+| steady-state motion | 稳态运动 | 一周期内输入功=耗散功，机构进入周期性运行（§8.2 选驱动力矩 41,450 N·m 之依据） |
+| driving torque | 驱动力矩 | 维持给定运动所需的力矩；逆动力学由拉格朗日乘子给出（Fig 8.2.4a） |
 
 ---
 
