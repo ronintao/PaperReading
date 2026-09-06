@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-08-24
+last_updated: 2026-09-06
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -229,6 +229,10 @@ last_updated: 2026-08-24
 | compression / intake stroke | 压缩 / 进气冲程 | 滑块向右压气（$\dot x_3>0$）/ 向左吸气（$\dot x_3\le0$，无气体力） |
 | steady-state motion | 稳态运动 | 一周期内输入功=耗散功，机构进入周期性运行（§8.2 选驱动力矩 41,450 N·m 之依据） |
 | driving torque | 驱动力矩 | 维持给定运动所需的力矩；逆动力学由拉格朗日乘子给出（Fig 8.2.4a） |
+| quick-return mechanism | 快回机构 | 工作行程慢而有力、回程快的机构；牛头刨床用之（§8.3, Fig 5.4.1） |
+| cutting force | 切削力 | 刀具-工件去料所需力 $F_c$；本例恒值 $200{,}000$ N，单向门控（仅切削行程 $\dot x_6<0$ 作用，Fig 8.3.1） |
+| cutting / return stroke | 切削 / 回程 | 切削行程 $\dot x_6<0$（慢、有切削力）/ 回程 $\dot x_6>0$（快、无切削力） |
+| flywheel inertia effect | 飞轮惯量效应 | 惯量↑→转速波动↓；但对循环速率与轴承反力波动的影响方向随机构而变（§8.3 与 §8.2 相反） |
 
 ---
 
