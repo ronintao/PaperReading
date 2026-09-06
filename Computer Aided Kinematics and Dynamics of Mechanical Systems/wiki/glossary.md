@@ -243,6 +243,11 @@ last_updated: 2026-09-06
 | separation | 分离 | 两体不再互推之时刻/位置；弹簧有质量使分离位置超过静平衡位（$1.27>1.2$ m，§8.4.2） |
 | unilateral damper | 单侧阻尼器 | 仅接触时作用的阻尼，$F_d=200\ \text{N·s/m}\times\dot\ell$；抑制颤振位移与周期（§8.4.2, Fig 8.4.9） |
 | wave propagation speed | 波传播速度 | 弹簧越硬（$k$↑）波速越快，故颤振周期越短（§8.4.2） |
+| valve-lifter mechanism | 气门挺杆机构 | 内燃机凸轮驱动气门；§5.6 运动学模型补气门弹簧后做逆动力学（§8.5, Fig 5.6.1） |
+| valve spring | 气门弹簧 | 把挺杆压在凸轮上、防分离的回位弹簧；刚度须保证高速下反力不变负（§8.5） |
+| pushrod reaction force | 推杆反力 | 凸轮-挺杆接触反力 $N$，由逆动力学 Lagrange 乘子给出；$N\ge0$ 为可接受判据（§8.5, Fig 8.5.1） |
+| cam–flat-faced follower joint | 凸轮-平面挺杆关节 | 单侧接触：只能推不能拉，物理 $N\ge0$；模型双侧约束下解出 $N<0$ 即分离信号（§8.5） |
+| negative reaction force / separation criterion | 负反力 / 分离判据 | 逆动力学反力变负 ⟺ 真实凸轮-挺杆已分离、设计不可接受；$k$↑抗分离、$\omega$↑（惯性力 $\propto\omega^2$）易分离（§8.5） |
 
 ---
 
