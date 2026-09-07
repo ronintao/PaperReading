@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-09-06
+last_updated: 2026-09-07
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -155,6 +155,19 @@ last_updated: 2026-09-06
 | local truncation error | 局部截断误差 | 用插值多项式逼近导数所致；预测器 $\sim h^{k+1}$（Eq. 7.4.13），校正器 $\sim h^{k+2}$（Eq. 7.4.16） |
 | self-starting algorithm | 自启动算法 | 从 $k=1$ 逐步升阶，仅需微分方程与初值 |
 | PECE method | PECE 方法 | Predict–Evaluate–Correct–Evaluate，每步两次 $\mathbf{f}$ 求值；$k$ 阶预测 + $(k+1)$ 阶校正为最佳配对 |
+| geometric / algebraic vector | 几何 / 代数向量 | 几何向量 $\tilde a$ 与选定笛卡尔系下的三元列矩阵 $\mathbf a$ 一一对应（§9.1） |
+| scalar / vector product | 标量积 / 向量积 | 点积 $\mathbf a^T\mathbf b$；叉积 $\mathbf a\times\mathbf b$，空间独有（§9.1） |
+| tilde operator | 波浪号算子 | $\tilde{\mathbf a}$ 为 $\mathbf a$ 生成的 $3\times3$ 反对称矩阵；把叉积变矩阵乘 $\mathbf a\times\mathbf b=\tilde{\mathbf a}\mathbf b$（Eq. 9.1.21） |
+| skew-symmetric matrix | 反对称矩阵 | $\tilde{\mathbf a}^T=-\tilde{\mathbf a}$；$\dot{\mathbf A}\mathbf A^T$、$\delta\mathbf A\mathbf A^T$ 皆反对称 |
+| direction cosine matrix / rotation transformation matrix | 方向余弦矩阵 / 旋转变换矩阵 | $\mathbf A=[\mathbf f,\mathbf g,\mathbf h]$，$\mathbf s=\mathbf A\mathbf s'$（Eq. 9.2.10–9.2.13）；列为随体轴单位向量 |
+| direction cosine | 方向余弦 | $a_{ij}=\cos\theta(\cdot,\cdot)$，$\mathbf A$ 的元素（Eq. 9.2.8） |
+| orthogonal matrix | 正交矩阵 | $\mathbf A^T\mathbf A=\mathbf I$，故 $\mathbf A^T=\mathbf A^{-1}$、$|\mathbf A|=\pm1$（Eq. 9.2.14–9.2.15） |
+| three rotational degrees of freedom | 三个转动自由度 | 9 方向余弦减 6 独立约束；由 $\boldsymbol\Phi_{\mathbf q}$ 行满秩 + 隐函数定理证（§9.2） |
+| noncommutativity of rotations | 转动不可交换 | 大幅值转动顺序不能颠倒（Fig. 9.2.3b≠9.2.4b），故**大转动不是向量** |
+| frame composition matrix | 参考系合成矩阵 | $\mathbf A_{ij}=\mathbf A_i^T\mathbf A_j$，从 $j$ 系到 $i$ 系（Eq. 9.2.25） |
+| angular velocity | 角速度 | $\tilde{\boldsymbol\omega}=\dot{\mathbf A}\mathbf A^T$（Eq. 9.2.36）；$\dot{\mathbf A}=\tilde{\boldsymbol\omega}\mathbf A=\mathbf A\tilde{\boldsymbol\omega}'$；**是向量** |
+| velocity / acceleration equation (spatial) | 速度 / 加速度方程（空间） | $\dot{\mathbf r}^P=\dot{\mathbf r}+\tilde{\boldsymbol\omega}\mathbf s^P$（Eq. 9.2.37）；加速度含向心项 $\tilde{\boldsymbol\omega}\tilde{\boldsymbol\omega}$（Eq. 9.2.42） |
+| virtual rotation | 虚旋转 | $\delta\mathbf A=\delta\tilde{\boldsymbol\pi}\mathbf A$（Eq. 9.2.47）；虚位移 $\delta\mathbf r^P=\delta\mathbf r+\delta\tilde{\boldsymbol\pi}\mathbf s^P$；**是向量**（对比大转动） |
 
 ## 四、机构实例 (Mechanism Examples)
 
