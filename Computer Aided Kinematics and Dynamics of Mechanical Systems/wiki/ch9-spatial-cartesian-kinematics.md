@@ -3,7 +3,7 @@ type: chapter-notes
 parent: computer-aided-kinematics-and-dynamics
 chapter: 9
 title: "Spatial Cartesian Kinematics"
-pages: 305-375
+pages: 305-380
 sections:
   - "9.1 Vectors in Space"
   - "9.2 Kinematics of a Rigid Body in Space"
@@ -12,7 +12,7 @@ sections:
   - "9.5 Driving Constraints"
   - "9.6 Position, Velocity, and Acceleration Analysis"
 created: 2026-05-18
-last_updated: 2026-05-18
+last_updated: 2026-09-08
 ---
 
 # Chapter 9: Spatial Cartesian Kinematics

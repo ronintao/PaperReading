@@ -270,7 +270,7 @@ $$\Phi_\mathbf{q}\ddot{\mathbf{q}} = \boldsymbol{\gamma} - 2\alpha\dot{\Phi} - \
 
 空间系统使用 **Euler 参数** $\mathbf{p} = [e_0, e_1, e_2, e_3]^T$ 描述姿态，满足归一化约束 $\mathbf{p}^T\mathbf{p} = 1$。
 
-![Euler 参数旋转示意](figures/computer-aided-kinematics-and-dynamics/fig_9_3_3_euler_rotation.png)
+![Fig. 9.3.1 Euler rotation of reference frames](figures/computer-aided-kinematics-and-dynamics/fig_9_3_1_euler_rotation.png)
 
 > Euler 参数基于轴角表示：绕单位轴 $\mathbf{u}$ 旋转角度 $\chi$，则 $e_0 = \cos(\chi/2)$，$\mathbf{e} = \mathbf{u}\sin(\chi/2)$（Eq. 9.3.2）。
 

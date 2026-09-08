@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-09-07
+last_updated: 2026-09-08
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -66,6 +66,38 @@ last_updated: 2026-09-07
 | consistent redundancy | 相容冗余 | 多余但不矛盾，自动满足 |
 | inconsistent redundancy | 不相容冗余 | 多余且矛盾，方程无解 |
 | consistent / inconsistent (constraints) | 相容 / 不相容（约束） | 能否物理装配 |
+
+### §9.4 空间约束库补充
+
+| English | 中文（统一译名） | 备注 |
+|---------|----------------|------|
+| joint definition frame | 关节定义系 | $x''\text{-}y''\text{-}z''$；由随体单位向量 $\mathbf f_i,\mathbf g_i,\mathbf h_i$ 声明关节几何（Eq. 9.4.1） |
+| joint definition frame transformation | 关节定义系变换 | $\mathbf C_i^P=[\mathbf f_i',\mathbf g_i',\mathbf h_i']$（Eq. 9.4.1） |
+| dot-1 constraint | 点积-1 约束 | $\Phi^{d1}=\mathbf a_i^T\mathbf a_j=0$（Eq. 9.4.2–9.4.3），两随体向量正交；纯姿态约束 |
+| dot-2 constraint | 点积-2 约束 | $\Phi^{d2}=\mathbf a_i^T\mathbf d_{ij}=0$（Eq. 9.4.4–9.4.6），随体向量与体间连线正交；$\mathbf d_{ij}=\mathbf 0$ 时失效 |
+| spherical constraint | 球副约束 | $\Phi^s=\mathbf r_j+\mathbf A_j\mathbf s_j'^P-\mathbf r_i-\mathbf A_i\mathbf s_i'^P=\mathbf 0$（Eq. 9.4.7） |
+| spherical joint / ball-and-socket joint | 球副 / 球窝副 | 3 方程，3 相对 DOF（Eq. 9.4.18） |
+| spherical–spherical constraint | 球-球距离约束 | $\Phi^{ss}=\mathbf d_{ij}^T\mathbf d_{ij}-C^2=0$（Eq. 9.4.8）；$C\neq 0$ 才可用 |
+| parallel-1 constraint | 平行-1 约束 | $\Phi^{p1}=[\Phi^{d1}(\mathbf f_i,\mathbf h_j);\Phi^{d1}(\mathbf g_i,\mathbf h_j)]=\mathbf 0$（Eq. 9.4.9），2 方程 |
+| parallel-2 constraint | 平行-2 约束 | $\Phi^{p2}=[\Phi^{d2}(\mathbf f_i,\mathbf d_{ij});\Phi^{d2}(\mathbf g_i,\mathbf d_{ij})]=\mathbf 0$（Eq. 9.4.10），2 方程 |
+| absolute point constraint | 绝对点约束 | $\Phi^P=\mathbf r_i+\mathbf A_i\mathbf s_i'^P-\mathbf r_i^0=\mathbf 0$（Eq. 9.4.16） |
+| ground constraint | 对地固定约束 | 6 绝对约束联用锁死体 $i$ 相对地面 |
+| universal joint | 万向节 | Cardan/Hooke joint；$\Phi^s+\Phi^{d1}(\mathbf h_i,\mathbf h_j)$（Eq. 9.4.19），4 方程，2 DOF |
+| universal joint lock-up | 万向节奇异构型 | 两叉夹角 $\phi=\pi/2$ 时驱动轴 $\theta_1$ 被锁死（Fig. 9.4.15） |
+| revolute joint (spatial) | 转动副（空间） | $\Phi^s+\Phi^{p1}$（Eq. 9.4.22），5 方程，1 DOF |
+| cylindrical joint | 柱铰 / 圆柱副 | $\Phi^{p1}+\Phi^{p2}$（Eq. 9.4.23），4 方程，2 DOF |
+| translational joint (spatial) | 移动副（空间） | $\Phi^{p1}+\Phi^{p2}+\Phi^{d1}(\mathbf f_i,\mathbf f_j)$（Eq. 9.4.24），5 方程，1 DOF |
+| screw joint | 螺旋副 | 柱铰 + $\mathbf h_i^T\mathbf d_{ij}=\alpha(\theta+2n\pi-\theta_0)$（Eq. 9.4.25–9.4.26），5 方程，1 DOF |
+| screw pitch | 螺距 | $\alpha$；轴向位移/单位转角（Eq. 9.4.25） |
+| composite joint | 复合关节 | 消去 coupler，改写为两端体间的等价约束；忽略 coupler 惯性 |
+| coupler (composite joint) | 连杆（复合关节中间体） | 复合关节的中间刚体；等价约束建模时省去其广义坐标 |
+| spherical–spherical joint | 球-球复合关节 | $\Phi^{ss}$（Eq. 9.4.28），1 方程，5 DOF |
+| revolute–spherical joint | 转-球复合关节 | $\Phi^{ss}+\Phi^{d2}(\mathbf h_i,\mathbf d_{ij})$（Eq. 9.4.29），2 方程，4 DOF |
+| revolute–revolute parallel joint | 平行轴 转-转复合关节 | Eq. 9.4.30，4 方程，2 DOF |
+| revolute–revolute orthogonal joint | 正交相交 转-转复合关节 | Eq. 9.4.31，4 方程，2 DOF |
+| revolute–cylindrical joint | 转-柱复合关节 | Eq. 9.4.32，2 方程，3 DOF |
+| revolute–translational joint | 转-平移复合关节 | Eq. 9.4.33，4 方程，2 DOF |
+| strut composite joint | 支柱复合关节 | 一端柱铰、一端球铰；$\Phi^{p2}(\mathbf h_i,\mathbf d_{ij})=\mathbf 0$（Eq. 9.4.34），2 方程，4 DOF |
 
 ## 三、数学与求解 (Math & Solution)
 
@@ -168,6 +200,18 @@ last_updated: 2026-09-07
 | angular velocity | 角速度 | $\tilde{\boldsymbol\omega}=\dot{\mathbf A}\mathbf A^T$（Eq. 9.2.36）；$\dot{\mathbf A}=\tilde{\boldsymbol\omega}\mathbf A=\mathbf A\tilde{\boldsymbol\omega}'$；**是向量** |
 | velocity / acceleration equation (spatial) | 速度 / 加速度方程（空间） | $\dot{\mathbf r}^P=\dot{\mathbf r}+\tilde{\boldsymbol\omega}\mathbf s^P$（Eq. 9.2.37）；加速度含向心项 $\tilde{\boldsymbol\omega}\tilde{\boldsymbol\omega}$（Eq. 9.2.42） |
 | virtual rotation | 虚旋转 | $\delta\mathbf A=\delta\tilde{\boldsymbol\pi}\mathbf A$（Eq. 9.2.47）；虚位移 $\delta\mathbf r^P=\delta\mathbf r+\delta\tilde{\boldsymbol\pi}\mathbf s^P$；**是向量**（对比大转动） |
+| Euler's theorem | Euler 定理 | 任何朝向可由绕单一轴 $\mathbf u$ 转角 $\chi$ 达到（§9.3, p.336） |
+| orientation axis | 朝向轴 | 单位向量 $\mathbf u$；正向由右手规则约定，反向对应 $\chi\to 2\pi-\chi$ |
+| Rodrigues rotation formula | 罗德里格斯旋转公式 | $\mathbf h=\mathbf k\cos\chi+(\mathbf u^T\mathbf k)\mathbf u(1-\cos\chi)+(\tilde{\mathbf u}\mathbf k)\sin\chi$（Eq. 9.3.1） |
+| Euler parameters | Euler 参数 | 四元组 $\mathbf p=[e_0;\mathbf e]$，$e_0=\cos(\chi/2)$、$\mathbf e=\mathbf u\sin(\chi/2)$（Eq. 9.3.2）；等价于单位四元数 |
+| Euler parameter normalization constraint | Euler 参数归一化约束 | $\mathbf p^T\mathbf p=1$（Eq. 9.3.9）；4 参数中 3 独立 |
+| trace of a matrix | 矩阵的迹 | $\operatorname{tr}\mathbf A=a_{11}+a_{22}+a_{33}$；$\operatorname{tr}\mathbf A=4e_0^2-1$（Eq. 9.3.11） |
+| double-valued map | 双值映射 | $\mathbf A(\mathbf p)=\mathbf A(-\mathbf p)$；$\pm\mathbf p$ 描述同一朝向，两支欧氏距离恒为 2（Fig. 9.3.4） |
+| locally one-to-one map | 局部一一映射 | $\mathbf p\to\mathbf A(\mathbf p)$ 在小邻域内一一对应；全局二值可由连续性消除 |
+| E matrix / G matrix | E / G 矩阵 | $3\times 4$ 线性 Euler 参数矩阵（Eqs. 9.3.18, 9.3.19）；$\mathbf A=\mathbf E\mathbf G^T$（Eq. 9.3.26） |
+| exact differential form | 精确微分形式 | 存在函数 $F$ 使 $dF=\sum f_i\,dx_i$；充要条件 $\partial f_i/\partial x_j=\partial f_j/\partial x_i$（Eq. 9.3.47） |
+| integrability | 可积性 | 一阶微分形式能否表为某函数的全微分；不可积 $\Leftrightarrow$ 非精确 |
+| quasi-coordinate | 准坐标 | 角速度 $\boldsymbol\omega,\boldsymbol\omega'$ 不是任何"角度向量"的时间导数（Eq. 9.3.45 反例）；只作系数矩阵调用 |
 
 ## 四、机构实例 (Mechanism Examples)
 
