@@ -109,6 +109,20 @@ last_updated: 2026-09-08
 | relative rotational driver | 相对转动驱动 | $\Phi^{rotd}=\theta+2n\pi-C(t)=0$（Eq. 9.5.4），$0\le C(t)-2n\pi<2\pi$；附于转动副/柱铰/螺旋副；$\theta$ 由 Eq. 9.2.31 |
 | time-suppressed variation | 时间冻结变分 | 计算 $\delta\boldsymbol\Phi$ 时视 $t$ 为常量；故驱动约束的雅可比与对应定常约束**完全相同**（p.382） |
 
+### §9.6 空间统一求解框架补充
+
+| English | 中文（统一译名） | 备注 |
+|---------|----------------|------|
+| Euler parameter normalization constraint (per body) | 单体归一化约束 | $\Phi_i^{\mathbf p}=\mathbf p_i^T\mathbf p_i-1=0$（Eq. 9.6.3）；每体 1 条，补齐 7 参数-6 自由度差 |
+| combined position equation | 合成位置方程 | $\boldsymbol\Phi=[\boldsymbol\Phi^K;\boldsymbol\Phi^D;\boldsymbol\Phi^{\mathbf p}]=\mathbf 0$（Eq. 9.6.5），$7nb$ 方程配 $7nb$ 未知量 |
+| position Jacobian | 位置雅可比 | $\boldsymbol\Phi_\mathbf q=[\boldsymbol\Phi^K_\mathbf q;\boldsymbol\Phi^D_\mathbf q;\boldsymbol\Phi^{\mathbf p}_\mathbf q]$（Eq. 9.6.10）；每块用 $\boldsymbol\Phi_\mathbf p=2\boldsymbol\Phi_{\boldsymbol\pi'}\mathbf G$ 装配 |
+| velocity coefficient matrix | 速度系数矩阵 | Eq. 9.6.12 左端 $\dot{\mathbf r}_i,\boldsymbol\omega'_i$ 的系数；**不等于**位置雅可比，姿态列相差因子 $2\mathbf G_i$；须**分别**检查非奇异 |
+| identically satisfied normalization velocity equation | 归一化速度方程恒成立 | $\dot\Phi_i^{\mathbf p}=\mathbf p_i^T\mathbf G_i^T\boldsymbol\omega'_i=0$（Eq. 9.6.9）；故速度/加速度分析可**剔除**归一化约束 |
+| Newton–Raphson iteration (spatial) | 空间 N-R 迭代 | $\boldsymbol\Phi_\mathbf q\Delta\mathbf q^{(j)}=-\boldsymbol\Phi(\mathbf q^{(j)},t)$（Eq. 9.6.11），复用 §4.5 |
+| $\gamma$ recipe (three-step) | $\gamma$ 通用三步法 | (1)一次求导得速度形式；(2)再求导，$\ddot{\mathbf r},\dot{\boldsymbol\omega}'$ 归左端；(3)用 $\dot{\mathbf A}=\mathbf A\tilde{\boldsymbol\omega}'$（Eq. 9.6.18）+ $\tilde{\boldsymbol\omega}'\mathbf a'=-\tilde{\mathbf a}'\boldsymbol\omega'$ 展开剩余项 |
+| centripetal term | 向心项 | $-\mathbf A_i\tilde{\boldsymbol\omega}'_i\tilde{\boldsymbol\omega}'_i\mathbf s'^P_i$；出现于 $\gamma^s,\gamma^P,\gamma^{1,2,3}$ 等所有含点位置约束 |
+| coefficient matrix reuse | 系数矩阵复用 | 速度方程系数矩阵 $=$ 加速度方程系数矩阵（Eq. 9.6.19），LU/Crout 分解只做一次 |
+
 ## 三、数学与求解 (Math & Solution)
 
 | English | 中文（统一译名） | 备注 / 不采用的译法 |
