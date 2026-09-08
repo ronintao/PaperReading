@@ -99,6 +99,16 @@ last_updated: 2026-09-08
 | revolute–translational joint | 转-平移复合关节 | Eq. 9.4.33，4 方程，2 DOF |
 | strut composite joint | 支柱复合关节 | 一端柱铰、一端球铰；$\Phi^{p2}(\mathbf h_i,\mathbf d_{ij})=\mathbf 0$（Eq. 9.4.34），2 方程，4 DOF |
 
+### §9.5 空间驱动约束补充
+
+| English | 中文（统一译名） | 备注 |
+|---------|----------------|------|
+| absolute driver (spatial) | 绝对驱动（空间） | $\Phi^{kd}=(\mathbf r_i^P)_k-C_k(t)=0$（Eq. 9.5.1），$k=1,2,3$；由 Eq. 9.4.15 绝对点约束改写，每条锁 1 平动 DOF |
+| distance driver | 距离驱动 | $\Phi^{ssd}=\mathbf d_{ij}^T\mathbf d_{ij}-\bigl(C(t)\bigr)^2=0$（Eq. 9.5.2），$C(t)\neq 0$；液压/电动伸缩杆 |
+| relative translational driver | 相对平移驱动 | $\Phi^{td}=\mathbf h_i^T\mathbf d_{ij}-C(t)=0$（Eq. 9.5.3）；$C(t)$ 是**有向**长度，可正负零；附于移动副/柱铰/螺旋副/支柱 |
+| relative rotational driver | 相对转动驱动 | $\Phi^{rotd}=\theta+2n\pi-C(t)=0$（Eq. 9.5.4），$0\le C(t)-2n\pi<2\pi$；附于转动副/柱铰/螺旋副；$\theta$ 由 Eq. 9.2.31 |
+| time-suppressed variation | 时间冻结变分 | 计算 $\delta\boldsymbol\Phi$ 时视 $t$ 为常量；故驱动约束的雅可比与对应定常约束**完全相同**（p.382） |
+
 ## 三、数学与求解 (Math & Solution)
 
 | English | 中文（统一译名） | 备注 / 不采用的译法 |

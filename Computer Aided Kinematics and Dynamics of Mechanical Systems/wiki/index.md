@@ -2,7 +2,7 @@
 type: index
 title: "Computer Aided Kinematics and Dynamics of Mechanical Systems, Volume I: Basic Methods"
 wiki_language: zh-CN
-last_updated: 2026-07-03
+last_updated: 2026-09-08
 ---
 
 # 论文解读导航
@@ -31,6 +31,7 @@ last_updated: 2026-07-03
 - [7.3 Algorithms for Solving Differential–Algebraic Equations](7.3-algorithms-for-solving-dae.md) — DAE四算法：二阶DAE降为一阶IVP(丢失位置/速度约束→漂移)、广义坐标分块法(积分独立坐标v+Newton-Raphson强制校正依赖坐标u,可靠但慢)、直接积分法(无视漂移,最快)、Baumgarte约束稳定化(加速度约束加PI反馈 Φ̈+2αΦ̇+β²Φ=0→γ̂,Eq.7.3.8)、混合算法(常态稳定化/超差回拉/奇异退化,DADS采用)、初值问题存在性定理(仅局部解)
 - [7.4 Numerical Integration of First-Order Initial-Value Problems](7.4-numerical-integration-first-order-ivp.md) — 一阶IVP数值积分：多项式插值地基(Taylor单点/多阶导 vs Newton后向差分多点/函数值,插值误差7.4.8)、Adams-Bashforth显式预测器(Eq.7.4.11,系数γ_i与h无关证明,k=1即Euler,自启动升阶,截断误差~h^{k+1})、Adams-Moulton隐式校正器(Eq.7.4.15,纳入f_{n+1}^p精度高一阶~h^{k+2})、PECE(k阶预测+k+1阶校正最佳配对,截断误差自适应调h/k,倒车类比Fig.7.4.2)、逐例手算e^t(例7.4.1-7.4.5)
 - [9.1 Vectors in Space](9.1-vectors-in-space.md) — 空间向量代数地基：几何向量(模/单位/加法平行四边形)、笛卡尔分量+方向余弦、标量积 a·b=aᵀb(9.1.11)判正交/算投影、空间独有的向量积 c=ãb(9.1.16/9.1.22)、波浪号算子 ã(9.1.21)把叉积变矩阵乘、双tilde恒等式 ãb̃=baᵀ−(aᵀb)I(9.1.28)及(9.1.29-32)全套性质逐条推导、静止系向量微分(9.1.33)、定长向量速度⊥位置(9.1.39)、匀速圆周运动向心加速度 r̈=−ω²r(例9.1.7-9.1.9)、三点定义参考系(例9.1.6)
+- [9.5 Driving Constraints](9.5-driving-constraints.md) — 空间驱动约束库：把 §9.4 定常约束里的常量换成 C(t) 得到 4 类驱动——绝对驱动 Φ^kd=x_i^P−C_k(t)(Eq 9.5.1，3 条)、距离驱动 Φ^ssd=d_ijᵀd_ij−C(t)²(Eq 9.5.2)、相对平移驱动 Φ^td=h_iᵀd_ij−C(t)(Eq 9.5.3，附于移动副/柱铰/螺旋副/支柱)、相对转动驱动 Φ^rotd=θ+2nπ−C(t)(Eq 9.5.4，附于转动副/柱铰/螺旋副)；时间冻结变分⇒雅可比与定常约束**完全相同**、只在 ν=Ċ、γ=C̈ 右端加显式时间项，与 §9.6 求解框架零成本对接
 
 ### 逐章精读笔记
 - [Ch.1 Elements of Computer-Aided Kinematics and Dynamics](ch1-elements-of-cakd.md) — 导论：学科范围、工程实例、传统方法vs计算方法、两种坐标方法对比、全书导读
