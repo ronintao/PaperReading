@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-09-08
+last_updated: 2026-09-11
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -122,6 +122,20 @@ last_updated: 2026-09-08
 | $\gamma$ recipe (three-step) | $\gamma$ 通用三步法 | (1)一次求导得速度形式；(2)再求导，$\ddot{\mathbf r},\dot{\boldsymbol\omega}'$ 归左端；(3)用 $\dot{\mathbf A}=\mathbf A\tilde{\boldsymbol\omega}'$（Eq. 9.6.18）+ $\tilde{\boldsymbol\omega}'\mathbf a'=-\tilde{\mathbf a}'\boldsymbol\omega'$ 展开剩余项 |
 | centripetal term | 向心项 | $-\mathbf A_i\tilde{\boldsymbol\omega}'_i\tilde{\boldsymbol\omega}'_i\mathbf s'^P_i$；出现于 $\gamma^s,\gamma^P,\gamma^{1,2,3}$ 等所有含点位置约束 |
 | coefficient matrix reuse | 系数矩阵复用 | 速度方程系数矩阵 $=$ 加速度方程系数矩阵（Eq. 9.6.19），LU/Crout 分解只做一次 |
+
+### §10.1 空间建模技术补充
+
+| English | 中文（统一译名） | 备注 |
+|---------|----------------|------|
+| constraint redundancy | 约束冗余 | 约束方程条数超过独立约束数；$n_{\text{red}}=nh-(nc-\text{DOF}_{\text{真实}})$ |
+| degree of redundancy | 冗余度 | 冗余方程的条数；等于"消除制造失配所需调节的参数个数" |
+| over-constrained model | 过约束模型 | 计数法得 $\text{DOF}=nc-nh<0$ 的模型（例 10.1.1：$28-30=-2$） |
+| counting check | 计数检查 | §5.1 步骤 1(a)：查 $\text{DOF}=nc-nh$；**必要不充分** |
+| manufacturing imperfection test | 制造缺陷测试 | §5.1 步骤 1(b)：故意把轴线装偏/点偏离平面，若不能装配则存在冗余（Fig. 10.1.2） |
+| misalignment | 失配（装配偏差） | 轴线不平行、关节中心离面等微小制造偏差 |
+| offset | 偏置 | 关节中心点偏离运动平面的量；须另调一个参数抵消 → 1 个冗余度 |
+| joint reference triad | 关节参考三点组 | $P_i,Q_i,R_i$ 与 $P_j,Q_j,R_j$ 在各自随体质心系中给定；与 §9.4 的关节定义系（joint definition frame）对应：$P$ 定关节点，$\mathbf{PQ}$ 定 $z''$ 轴，$R$ 定 $x''$ 轴 |
+| unwanted extra degree of freedom | 非期望额外自由度 | 为消冗余而换用少一条方程的关节（如转动副→圆柱副）所放出；典型为中间体绕关节轴自转（Fig. 10.1.3） |
 
 ## 三、数学与求解 (Math & Solution)
 

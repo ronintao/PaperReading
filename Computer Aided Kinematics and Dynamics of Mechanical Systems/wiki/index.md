@@ -2,7 +2,7 @@
 type: index
 title: "Computer Aided Kinematics and Dynamics of Mechanical Systems, Volume I: Basic Methods"
 wiki_language: zh-CN
-last_updated: 2026-09-08
+last_updated: 2026-09-11
 ---
 
 # 论文解读导航
@@ -33,6 +33,7 @@ last_updated: 2026-09-08
 - [9.1 Vectors in Space](9.1-vectors-in-space.md) — 空间向量代数地基：几何向量(模/单位/加法平行四边形)、笛卡尔分量+方向余弦、标量积 a·b=aᵀb(9.1.11)判正交/算投影、空间独有的向量积 c=ãb(9.1.16/9.1.22)、波浪号算子 ã(9.1.21)把叉积变矩阵乘、双tilde恒等式 ãb̃=baᵀ−(aᵀb)I(9.1.28)及(9.1.29-32)全套性质逐条推导、静止系向量微分(9.1.33)、定长向量速度⊥位置(9.1.39)、匀速圆周运动向心加速度 r̈=−ω²r(例9.1.7-9.1.9)、三点定义参考系(例9.1.6)
 - [9.5 Driving Constraints](9.5-driving-constraints.md) — 空间驱动约束库：把 §9.4 定常约束里的常量换成 C(t) 得到 4 类驱动——绝对驱动 Φ^kd=x_i^P−C_k(t)(Eq 9.5.1，3 条)、距离驱动 Φ^ssd=d_ijᵀd_ij−C(t)²(Eq 9.5.2)、相对平移驱动 Φ^td=h_iᵀd_ij−C(t)(Eq 9.5.3，附于移动副/柱铰/螺旋副/支柱)、相对转动驱动 Φ^rotd=θ+2nπ−C(t)(Eq 9.5.4，附于转动副/柱铰/螺旋副)；时间冻结变分⇒雅可比与定常约束**完全相同**、只在 ν=Ċ、γ=C̈ 右端加显式时间项，与 §9.6 求解框架零成本对接
 - [9.6 Position, Velocity, and Acceleration Analysis](9.6-position-velocity-acceleration-analysis.md) — 空间三段统一框架：单体广义坐标 q_i=[r_i;p_i]∈ℝ⁷、Euler 参数归一化 pᵀp−1=0 补齐 7 参数-6 DOF 差(Eq 9.6.3)、合成方程 Φ=[Φ^K;Φ^D;Φ^p]=0 共 7nb 方程(Eq 9.6.5)、位置雅可比 Φ_p=2Φ_π'G 装配(Eq 9.6.6-8)+关键恒等式 Φ_i,π'^p=pᵀGᵀ=0(Eq 9.6.9)⇒归一化速度/加速度方程恒零可剔除；速度方程系数矩阵≠位置雅可比(差 2G 因子,须分别验非奇异)、ν^K=0、ν^D 逐类 Ċ；加速度方程系数矩阵**复用**速度方程(LU 分解只做一次)、右端 γ 用 Ȧ=Aω̃' 三步法(全 d1 完整推导+d2/球副/球-球/绝对/点约束/螺旋 γ 结果)、驱动加 C̈ 项(Eqs 9.6.29-32)
+- [10.1 Modeling and Analysis Techniques](10.1-modeling-and-analysis-techniques.md) — 空间建模方法论开篇：唯一本质差别=约束冗余；例 10.1.1 空间曲柄滑块 nc=28/nh=30→DOF=−2、n_red=30−(28−1)=3、rank Φ_q=27；三条冗余溯源(平行轴自动传递 2 条 + 共面使 C 点 z 约束恒满足 1 条)、制造缺陷测试(装偏 A 轴→C 轴失配不能装配⇒调 2 参数，加离面 offset⇒第 3 个冗余度)、反面教材(移动副→绝对 x/z 约束使计数变对但仍不可装配；转动副→圆柱副可装配却放出体 3 绕轴自转的额外 DOF)、结论"只改方程数量不行，必须改关节类型"
 
 ### 逐章精读笔记
 - [Ch.1 Elements of Computer-Aided Kinematics and Dynamics](ch1-elements-of-cakd.md) — 导论：学科范围、工程实例、传统方法vs计算方法、两种坐标方法对比、全书导读
