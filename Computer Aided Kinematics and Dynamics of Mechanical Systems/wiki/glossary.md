@@ -95,7 +95,7 @@ last_updated: 2026-09-11
 | revolute–spherical joint | 转-球复合关节 | $\Phi^{ss}+\Phi^{d2}(\mathbf h_i,\mathbf d_{ij})$（Eq. 9.4.29），2 方程，4 DOF |
 | revolute–revolute parallel joint | 平行轴 转-转复合关节 | Eq. 9.4.30，4 方程，2 DOF |
 | revolute–revolute orthogonal joint | 正交相交 转-转复合关节 | Eq. 9.4.31，4 方程，2 DOF |
-| revolute–cylindrical joint | 转-柱复合关节 | Eq. 9.4.32，2 方程，3 DOF |
+| revolute–cylindrical joint | 转-柱复合关节 | Eq. 9.4.32，$\Phi^{d1}(1)+\Phi^{p2}(2)=$ **3 方程**，3 DOF（3+3=6 ✓） |
 | revolute–translational joint | 转-平移复合关节 | Eq. 9.4.33，4 方程，2 DOF |
 | strut composite joint | 支柱复合关节 | 一端柱铰、一端球铰；$\Phi^{p2}(\mathbf h_i,\mathbf d_{ij})=\mathbf 0$（Eq. 9.4.34），2 方程，4 DOF |
 
@@ -136,6 +136,24 @@ last_updated: 2026-09-11
 | offset | 偏置 | 关节中心点偏离运动平面的量；须另调一个参数抵消 → 1 个冗余度 |
 | joint reference triad | 关节参考三点组 | $P_i,Q_i,R_i$ 与 $P_j,Q_j,R_j$ 在各自随体质心系中给定；与 §9.4 的关节定义系（joint definition frame）对应：$P$ 定关节点，$\mathbf{PQ}$ 定 $z''$ 轴，$R$ 定 $x''$ 轴 |
 | unwanted extra degree of freedom | 非期望额外自由度 | 为消冗余而换用少一条方程的关节（如转动副→圆柱副）所放出；典型为中间体绕关节轴自转（Fig. 10.1.3） |
+
+### §10.2 空间曲柄滑块例补充
+
+| English | 中文（统一译名） | 备注 |
+|---------|----------------|------|
+| spatial slider–crank mechanism | 空间曲柄滑块机构 | §10.2；4 体（曲柄①/连杆②/滑块③/地面④），关节 A(①-④ 转动副)、B(①-② 球副)、C(②-③ 转-柱)、D(③-④ 移动副) + 距离约束；$nc=28,nh=27,\text{DOF}=1$（Fig. 10.2.1） |
+| joint reference triad | 关节参考三点组 | §10.2 用法：$P$ 定关节中心、$PQ$ 定 $z''$ 轴、$PR$ 定 $x''$ 轴（$R$ 可任选，只定相位）；三点均写在各体随体质心系中（Tables 10.2.1–10.2.5） |
+| joint reference point | 关节参考点 | $P_i,Q_i,R_i$ 三者；$P$ 为关节作用点 |
+| crank radius | 曲柄半径 | §10.2 例 $r=0.08$ m（曲柄销到转动轴距离，表 10.2.2 的 $P_1$） |
+| slider | 滑块 | 空间移动副约束下只有 1 个平动自由度（$y=z=0$） |
+| slide axis | 滑轨 | §10.2 例为过原点、方向 $\hat{\mathbf x}$ 的直线 |
+| distance constraint | 距离约束 | $\Phi^{ss}=\mathbf d^T\mathbf d-C^2=0$，1 方程；§10.2 例 $C=1.0$ m（连杆 C 点 ↔ 滑块远点） |
+| relative rotational driver | 相对转动驱动 | §10.2 例 $\theta=2\pi t$（$\omega_0=2\pi$ rad/s = 1 转/秒），把 $\text{DOF}=1$ 锁成 0 方程余量（Eq. 9.5.4） |
+| lock-up configuration | 锁死构型 | 曲柄销离滑轨最远、连杆被拉直的瞬间（Fig. 10.2.2）；**不用**"自锁" |
+| lock-up length | 锁死长度 | §10.2 中 $\ell_{\min}=\sqrt{0.1^2+0.12^2}+0.08=0.15620+0.08=\mathbf{0.2362}$ m $=$ 曲柄轴到滑轨垂距 $+$ 曲柄半径；$\ell<\ell_{\min}$ 够不着 ⇒ 锁死 |
+| near-singular design | 近奇异设计 | 设计参数贴近锁死阈值（如 $\ell=0.24$ m 距 0.2362 m 仅 1.6%），速度/加速度被放大（Fig. 10.2.5 峰值 $\approx11$ m/s²） |
+| singular amplification | 奇异放大 | 由 $x_C=\sqrt{\ell^2-\rho^2}$ 得 $\dot x\propto(\ell^2-\rho^2)^{-1/2}$、$\ddot x\propto(\ell^2-\rho^2)^{-3/2}$ |
+| pin-to-track distance | 销到滑轨垂距 | $\rho$；§10.2 中 $\rho^2=0.0308+0.016\cos\theta+0.0192\sin\theta$，$\rho_{\min}=0.07620$、$\rho_{\max}=0.23620$ m |
 
 ## 三、数学与求解 (Math & Solution)
 
