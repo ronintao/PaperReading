@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-09-12
+last_updated: 2026-09-13
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -382,6 +382,48 @@ last_updated: 2026-09-12
 | pushrod reaction force | 推杆反力 | 凸轮-挺杆接触反力 $N$，由逆动力学 Lagrange 乘子给出；$N\ge0$ 为可接受判据（§8.5, Fig 8.5.1） |
 | cam–flat-faced follower joint | 凸轮-平面挺杆关节 | 单侧接触：只能推不能拉，物理 $N\ge0$；模型双侧约束下解出 $N<0$ 即分离信号（§8.5） |
 | negative reaction force / separation criterion | 负反力 / 分离判据 | 逆动力学反力变负 ⟺ 真实凸轮-挺杆已分离、设计不可接受；$k$↑抗分离、$\omega$↑（惯性力 $\propto\omega^2$）易分离（§8.5） |
+
+### §11.1 空间刚体运动方程补充
+
+| English | 中文（统一译名） | 备注 |
+|---------|----------------|------|
+| distance constraint model of a rigid body | 刚体的距离约束模型 | 体内任意两点间一条距离约束 ⇒ 内力共线、内力虚功恒零（Eqs. 11.1.3–11.1.6） |
+| internal force of a rigid body | 刚体内力 | $\mathbf f(P,R)=k(\mathbf r^P-\mathbf r^R)$（Eq. 11.1.5）；**共线不是牛顿第三定律的推论**（电磁场/非均匀引力场中不成立，那些力须当外力） |
+| centroidal body reference frame | 质心随体系 | $x'$-$y'$-$z'$，原点在质心，$\int\mathbf s'^Pdm=\mathbf 0$（Eq. 11.1.13）；平面版见 §6.1 |
+| noncentroidal body-fixed frame | 非质心随体系 | $x''$-$y''$-$z''$，原点在固定点 $O''$（Eqs. 11.1.21–11.1.23、例 11.1.2） |
+| total external force | 合外力 | $\mathbf F\equiv\int\mathbf F(P)\,dm(P)$（Eq. 11.1.14） |
+| moment of external forces | 外力矩 | $\mathbf n'\equiv\int\tilde{\mathbf s}'^P\mathbf F'(P)\,dm(P)$（Eq. 11.1.15），关于质心系原点 |
+| inertia matrix / inertia tensor | 惯性矩阵 / 惯性张量 | $\mathbf J'=-\int\tilde{\mathbf s}'^P\tilde{\mathbf s}'^Pdm$（Eq. 11.1.17）；常量、对称 |
+| moment of inertia | 惯性矩 | $\mathbf J'$ 对角元，如 $J_{x'x'}=\int\bigl((y'^P)^2+(z'^P)^2\bigr)dm$ |
+| product of inertia | 惯性积 | $\mathbf J'$ 非对角元，如 $J_{x'y'}=-\int x'^Py'^Pdm$；**只影响反力矩**（Eq. 11.1.28） |
+| asymmetry (inertia) | 惯性不对称 | 惯性积非零；使关节承受动态反力矩（例 11.1.2 结论） |
+| variational Newton–Euler equations of motion | 变分 Newton–Euler 运动方程 | Eq. 11.1.19；约束以 $\lambda\,\delta\Phi$ 加入 |
+| Newton–Euler equations of motion (spatial) | Newton–Euler 运动方程（空间） | Eq. 11.1.20；无约束单体 |
+| Euler equations of motion (rigid body) | 欧拉方程（刚体） | Eq. 11.1.23；一点固定且无姿态约束；右端非线性 ⇒ 一般无封闭解 |
+| gyroscopic term | 陀螺项 | $\tilde{\boldsymbol\omega}'\mathbf J'\boldsymbol\omega'$；平面动力学中不存在（$\boldsymbol\omega'$ 退化为标量时为零） |
+| one point fixed in space | 一点固定 | $\mathbf r=\mathbf c$、$\dot{\mathbf r}=\ddot{\mathbf r}=\mathbf 0$、$\delta\mathbf r=\mathbf 0$（Eq. 11.1.21） |
+| reaction torque (fixed-point body) | 反力矩（一点固定体） | $\mathbf T''=[T_{x''},0,T_{z''}]^T$（Eq. 11.1.27）；转动关节允许绕轴自由转 ⇒ 轴向分量为零 |
+
+### §11.2 质心 / 惯性矩 / 主轴 / 复合体补充
+
+| English | 中文（统一译名） | 备注 |
+|---------|----------------|------|
+| centroid location | 质心位置 | $\boldsymbol\rho''=\tfrac{1}{m}\int_m\mathbf s''^P dm$（Eq. 11.2.1）；与选哪个平行的 $x''$ 系无关 |
+| plane of symmetry | 对称面 | 几何 + 质量都对称的坐标平面；质心必在此面上（Eq. 11.2.3） |
+| axis of symmetry | 对称轴 | 过它的每一个平面都是对称面；质心必在轴上 |
+| inertia matrix transformation | 惯性矩阵变换 | $\mathbf J''=\mathbf C^T\mathbf J'\mathbf C+m(\boldsymbol\rho''^T\boldsymbol\rho''\mathbf I-\boldsymbol\rho''\boldsymbol\rho''^T)$（Eq. 11.2.7）；含转动 + 平移；要求 $x'$ 系是质心系 |
+| parallel axis theorem (spatial) | 平行轴定理（空间） | $J_{x''x''}=J_{x'x'}+m(\rho_{y''}^2+\rho_{z''}^2)$（Eq. 11.2.8）；惯性积 $J_{x''y''}=J_{x'y'}-m\rho_{x''}\rho_{y''}$（Eq. 11.2.9） |
+| principal axes | 主轴 | 使 $\mathbf J$ 对角化的质心系；$\mathbf J''$ 的正交特征向量 $\mathbf f'',\mathbf g'',\mathbf h''$（Eq. 11.2.15）；$\mathbf C^T=[\mathbf f'',\mathbf g'',\mathbf h'']$（Eq. 11.2.16） |
+| principal moments of inertia | 主惯性矩 | $\zeta_1\ge\zeta_2\ge\zeta_3\ge 0$，$\mathbf J''$ 的特征值（Eq. 11.2.15）；主惯性积恒为零 |
+| principal products of inertia | 主惯性积 | 主轴系里非对角元恒零；由构造保证 |
+| positive semidefinite / definite | 半正定 / 正定 | $\mathbf a^T\mathbf J''\mathbf a\ge 0$（Eq. 11.2.14）；密度非零 + 存在三独立位置向量 ⇒ 正定 |
+| eigenvector / eigenvalue | 特征向量 / 特征值 | 谱定理保证 $3\times 3$ 对称矩阵可正交对角化 |
+| composite body | 复合体 | 由标准形状子部件（球 / 圆柱 / 长方体等）拼装或掏空得到 |
+| subcomponent | 子部件 | 复合体的组成实体 $i$，各有 $m_i,\boldsymbol\rho''_i,\mathbf J'_i$ |
+| void (in composite body) | 空洞 | 复合体中被掏去的部分；按**负质量**处理：$-m_i,-\mathbf J^*_i$（Eq. 11.2.19–11.2.20） |
+| composite body centroid | 复合体质心 | $\boldsymbol\rho''=\tfrac{1}{m}\sum m_i\boldsymbol\rho''_i$（Eq. 11.2.18）；$m=\sum m_i$ |
+| composite body inertia matrix | 复合体惯性矩阵 | $\mathbf J^*=\sum_i\mathbf J^*_i$（Eq. 11.2.19），$\mathbf J^*_i=\mathbf C'^T_i\mathbf J'_i\mathbf C'_i+m_i(\boldsymbol\rho'^T_i\boldsymbol\rho'_i\mathbf I-\boldsymbol\rho'_i\boldsymbol\rho'^T_i)$（Eq. 11.2.20） |
+| Table 11.2.1 (standard shapes) | 标准形状惯性表 | 提供 rod / cube / prism / sphere / hollow sphere / hemisphere / cone / cylinder / hollow cylinder 的 $m,\mathbf J'$；书上 hollow sphere 一行有印刷错误，正确为 $m=\tfrac{4}{3}\pi\gamma(R_1^3-R_2^3)$、$J=\tfrac{2}{5}m(R_1^5-R_2^5)/(R_1^3-R_2^3)$ |
 
 ---
 
