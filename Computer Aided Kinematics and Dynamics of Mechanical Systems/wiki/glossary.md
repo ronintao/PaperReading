@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-09-11
+last_updated: 2026-09-12
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -154,6 +154,27 @@ last_updated: 2026-09-11
 | near-singular design | 近奇异设计 | 设计参数贴近锁死阈值（如 $\ell=0.24$ m 距 0.2362 m 仅 1.6%），速度/加速度被放大（Fig. 10.2.5 峰值 $\approx11$ m/s²） |
 | singular amplification | 奇异放大 | 由 $x_C=\sqrt{\ell^2-\rho^2}$ 得 $\dot x\propto(\ell^2-\rho^2)^{-1/2}$、$\ddot x\propto(\ell^2-\rho^2)^{-3/2}$ |
 | pin-to-track distance | 销到滑轨垂距 | $\rho$；§10.2 中 $\rho^2=0.0308+0.016\cos\theta+0.0192\sin\theta$，$\rho_{\min}=0.07620$、$\rho_{\max}=0.23620$ m |
+
+### §10.4 斜盘式空气压缩机例补充
+
+| English | 中文（统一译名） | 备注 |
+|---------|----------------|------|
+| air compressor | 空气压缩机 | §10.4 例；斜盘式六缸，9 体模型（Fig. 10.4.1） |
+| wobble plate / disk | 斜盘 | 体 ③；**不用**"摆盘""斜板" |
+| rotor | 转子 | 体 ②；绕全局 $y$ 轴转，驱动 $\theta=62.832t$（600 rpm） |
+| piston | 活塞 | 体 ④–⑨；被平移副约束为只沿 $y$ 往复 |
+| offset angle | 偏置角 | $\alpha$；盘面法线与转子轴夹角；编码在关节 $B$ 数据里（$0.3660=\cos\alpha-\sin\alpha$，$\alpha=30°$）；参数研究取 20°/30°/40° |
+| canting | 摆动（盘面被扳斜） | 把转子旋转转成活塞往复的机理；盘法线绕 $\hat{\mathbf y}$ 画半顶角 $\alpha$ 的圆锥 |
+| x position absolute constraint | $x$ 位置绝对约束 | 盘上 $O$ 点 $x_O=0$（Eq. 9.4.16 的单分量版）；消掉盘绕自身法线的自转 DOF |
+| slot constraint | 槽约束 | 上述约束的物理实现：盘上开槽、一根平行于全局 $y$ 的导杆穿过 |
+| disk spin | 盘的自转 | $\beta$；由槽约束解出 $\beta(\theta)=270°-g(\theta)$，$g=\arctan(-\cot\theta/\cos\alpha)$（$\theta=180°$ 处两支须按连续性跟踪） |
+| connecting rod | 连杆 | 两端球铰 ⇒ 球-球距离约束，$L=0.5$ m，共 6 根 |
+| cylinder bore / slide axis | 缸孔 / 滑轨 | 六条沿 $y$ 的平移副轴线，$(x,z)=R_0(\cos\psi_k,\sin\psi_k)$、$R_0=0.2$ m，位于 $y=-1.0$ |
+| piston phase | 活塞相位 | $\psi_k=30°,90°,150°,210°,270°,330°$（每 60° 一个） |
+| radial offset (of a connecting rod) | 连杆的径向偏置 | $r=\bigl\lvert(x_C,z_C)-(x_{\text{bore}},z_{\text{bore}})\bigr\rvert\le0.054$ m $\ll L$；连杆最大倾角约 6° |
+| stroke | 行程 | §10.4 精确解 $=2R_0\sin\alpha$（$0.137/0.200/0.257$ m @ 20°/30°/40°） |
+| distortion factor | 畸变因子 | $g'(\theta)=\cos\alpha/(1-\sin^2\alpha\sin^2\theta)\in[\cos\alpha,1/\cos\alpha]$；放大速度/加速度峰值，偏置角越大越强 |
+| first-harmonic inertia balance | 一阶惯性力自平衡 | 六缸 60° 相位使 $\sum_k\sin(\psi_k+\theta)=0$ |
 
 ## 三、数学与求解 (Math & Solution)
 
