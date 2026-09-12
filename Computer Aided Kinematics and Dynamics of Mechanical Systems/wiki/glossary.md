@@ -3,7 +3,7 @@ type: glossary
 parent: computer-aided-kinematics-and-dynamics
 title: "术语中英对照表 (Terminology Glossary)"
 created: 2026-06-09
-last_updated: 2026-09-13
+last_updated: 2026-09-12
 ---
 
 # 术语中英对照表（Terminology Glossary）
@@ -424,6 +424,37 @@ last_updated: 2026-09-13
 | composite body centroid | 复合体质心 | $\boldsymbol\rho''=\tfrac{1}{m}\sum m_i\boldsymbol\rho''_i$（Eq. 11.2.18）；$m=\sum m_i$ |
 | composite body inertia matrix | 复合体惯性矩阵 | $\mathbf J^*=\sum_i\mathbf J^*_i$（Eq. 11.2.19），$\mathbf J^*_i=\mathbf C'^T_i\mathbf J'_i\mathbf C'_i+m_i(\boldsymbol\rho'^T_i\boldsymbol\rho'_i\mathbf I-\boldsymbol\rho'_i\boldsymbol\rho'^T_i)$（Eq. 11.2.20） |
 | Table 11.2.1 (standard shapes) | 标准形状惯性表 | 提供 rod / cube / prism / sphere / hollow sphere / hemisphere / cone / cylinder / hollow cylinder 的 $m,\mathbf J'$；书上 hollow sphere 一行有印刷错误，正确为 $m=\tfrac{4}{3}\pi\gamma(R_1^3-R_2^3)$、$J=\tfrac{2}{5}m(R_1^5-R_2^5)/(R_1^3-R_2^3)$ |
+
+### §11.3 空间约束系统运动方程补充
+
+| English | 中文（统一译名） | 备注 |
+|---------|----------------|------|
+| composite generalized coordinates | 系统级广义坐标 | $\mathbf r=[\mathbf r_1^T,\dots,\mathbf r_{n_b}^T]^T$、$\mathbf p=[\mathbf p_1^T,\dots,\mathbf p_{n_b}^T]^T$（Eq. 11.3.1）；总维数 $3n_b+4n_b=7n_b$ |
+| system-level constraint equations | 系统级约束方程 | $\boldsymbol\Phi(\mathbf r,\mathbf p,t)=\mathbf 0$（Eq. 11.3.2）；把第 9 章各条按行拼装 |
+| stacked normalization constraint | 堆叠归一化约束 | $\boldsymbol\Phi^{\mathbf p}=[\mathbf p_i^T\mathbf p_i-1]_{i=1}^{n_b}$（Eq. 11.3.3）；$n_b\times 1$ |
+| block-diagonal mass matrix | 块对角质量矩阵 | $\mathbf M=\operatorname{diag}(m_i\mathbf I_3)$；$3n_b\times 3n_b$，常量 |
+| block-diagonal inertia matrix (system) | 系统块对角惯性矩阵 | $\mathbf J'=\operatorname{diag}(\mathbf J_i')$；$3n_b\times 3n_b$，常量 |
+| applied force / torque | 施加力 / 施加力矩 | $\mathbf F^A,\mathbf n'^A$；重力、弹簧、驱动等外部作用（p.441） |
+| constraint force / torque | 约束力 / 约束反力矩 | $\mathbf F^C,\mathbf n'^C$；关节内部约束反作用，对相容虚位移做零功 $\delta\mathbf r^T\mathbf F^C+\delta\boldsymbol\pi'^T\mathbf n'^C=0$（p.441） |
+| variational equation of motion (system) | 系统变分运动方程 | $\delta\mathbf r^T[\mathbf M\ddot{\mathbf r}-\mathbf F^A]+\delta\boldsymbol\pi'^T[\mathbf J'\dot{\boldsymbol\omega}'+\tilde{\boldsymbol\omega}'\mathbf J'\boldsymbol\omega'-\mathbf n'^A]=0$（Eq. 11.3.5） |
+| kinematically admissible virtual displacement | 运动学可容纳虚位移 | 满足 $\boldsymbol\Phi_{\mathbf r}\delta\mathbf r+\boldsymbol\Phi_{\boldsymbol\pi'}\delta\boldsymbol\pi'=\mathbf 0$（Eq. 11.3.6） 或 $\boldsymbol\Phi_{\mathbf r}\delta\mathbf r+\boldsymbol\Phi_{\mathbf p}\delta\mathbf p=\mathbf 0$（Eq. 11.3.25）的 $\delta\mathbf r,\delta\boldsymbol\pi'$（或 $\delta\mathbf p$） |
+| constrained Newton–Euler equations of motion | 约束 Newton–Euler 运动方程 | $\mathbf M\ddot{\mathbf r}+\boldsymbol\Phi_{\mathbf r}^T\boldsymbol\lambda=\mathbf F^A$、$\mathbf J'\dot{\boldsymbol\omega}'+\boldsymbol\Phi_{\boldsymbol\pi'}^T\boldsymbol\lambda=\mathbf n'^A-\tilde{\boldsymbol\omega}'\mathbf J'\boldsymbol\omega'$（Eq. 11.3.8） |
+| system acceleration equation (Newton–Euler) | 系统加速度方程（Newton–Euler） | Eq. 11.3.11；一阶混合 DAE，未知量 $\ddot{\mathbf r},\dot{\boldsymbol\omega}',\boldsymbol\lambda$；$\mathbf M,\mathbf J'$ 常量 |
+| mixed differential–algebraic equations of motion | 混合微分-代数运动方程（DAE） | (11.3.11) 与 (11.3.2)、(11.3.9) 联立；同时含微分量（$\ddot{\mathbf r},\dot{\boldsymbol\omega}'$）与代数量（$\boldsymbol\lambda$） |
+| first-order mixed DAE | 一阶混合 DAE | (11.3.11) 之型；$\boldsymbol\omega'$ 不可直接积回坐标，须借 Euler 参数运动学（$\dot{\mathbf p}=\tfrac12\mathbf G^T\boldsymbol\omega'$）间接推进；§11.6 讨论 |
+| second-order mixed DAE | 二阶 DAE | (11.3.29) 之型；未知加速度 $\ddot{\mathbf r},\ddot{\mathbf p}$ 双双可积；直接套第 7 章算法 |
+| position initial conditions | 位置初值条件 | $\boldsymbol\Phi^I(\mathbf r,\mathbf p,t_0)=\mathbf 0$（Eq. 11.3.12）；与 (11.3.2)、(11.3.3) 联立唯一定 $\mathbf r(t_0),\mathbf p(t_0)$ |
+| velocity initial conditions (angular form) | 速度初值条件（角速度形式） | $\mathbf B_{\mathbf r}^I\dot{\mathbf r}+\mathbf B_{\boldsymbol\omega'}^I\boldsymbol\omega'=\mathbf v^I$（Eq. 11.3.13）；物理指定角速度；与 (11.3.9) 联立 |
+| velocity initial conditions (Euler parameter form) | 速度初值条件（Euler 参数形式） | $\mathbf B_{\mathbf r}^I\dot{\mathbf r}+2\mathbf B_{\boldsymbol\omega'}^I\mathbf G\dot{\mathbf p}=\mathbf v^I$（Eq. 11.3.30）；由 (11.3.13) 经 $\boldsymbol\omega'=2\mathbf G\dot{\mathbf p}$ 改写 |
+| $\dot{\mathbf G}\dot{\mathbf p}=\mathbf 0$ identity | $\dot{\mathbf G}\dot{\mathbf p}=\mathbf 0$ 恒等式 | Eq. 11.3.16；两项 $-\dot{\mathbf e}\dot e_0+\dot e_0\dot{\mathbf e}=\mathbf 0$（标量可交换）+ $\dot{\tilde{\mathbf e}}\dot{\mathbf e}=\dot{\mathbf e}\times\dot{\mathbf e}=\mathbf 0$；Euler 参数在单位球面上运动的直接体现 |
+| $\dot{\boldsymbol\omega}'\text{-}\ddot{\mathbf p}$ direct relation | $\dot{\boldsymbol\omega}'\text{-}\ddot{\mathbf p}$ 直接关系 | $\dot{\boldsymbol\omega}'=2\mathbf G\ddot{\mathbf p}$（Eq. 11.3.17）；不含 $\dot{\mathbf p}$ 二次项 |
+| $\ddot{\mathbf p}\text{-}\dot{\boldsymbol\omega}'$ inverse relation | $\ddot{\mathbf p}\text{-}\dot{\boldsymbol\omega}'$ 反关系 | $\ddot{\mathbf p}=\tfrac12\mathbf G^T\dot{\boldsymbol\omega}'-\tfrac14\boldsymbol\omega'^T\boldsymbol\omega'\,\mathbf p$（Eq. 11.3.21）；含向心项 $-\tfrac14\lVert\boldsymbol\omega'\rVert^2\mathbf p$ |
+| Euler parameter velocity equation | Euler 参数速度方程 | $\boldsymbol\Phi_{\mathbf r}\dot{\mathbf r}+\boldsymbol\Phi_{\mathbf p}\dot{\mathbf p}=\boldsymbol\nu$（Eq. 11.3.14），其中 $\boldsymbol\Phi_{\mathbf p_i}=2\boldsymbol\Phi_{\boldsymbol\pi_i'}\mathbf G_i$（Eq. 11.3.15） |
+| Euler parameter acceleration equation | Euler 参数加速度方程 | $\boldsymbol\Phi_{\mathbf r}\ddot{\mathbf r}+\boldsymbol\Phi_{\mathbf p}\ddot{\mathbf p}=\boldsymbol\gamma$（Eq. 11.3.22） |
+| normalization velocity / acceleration equations | 归一化速度 / 加速度方程 | $\boldsymbol\Phi_{\mathbf p}^{\mathbf p}\dot{\mathbf p}=\mathbf 0$（Eq. 11.3.23）；$\boldsymbol\Phi_{\mathbf p}^{\mathbf p}\ddot{\mathbf p}=-2[\dot{\mathbf p}_i^T\dot{\mathbf p}_i]\equiv\boldsymbol\gamma^{\mathbf p}$（Eq. 11.3.24） |
+| normalization multiplier | 归一化乘子 | $\boldsymbol\lambda^{\mathbf p}\in\mathbb R^{n_b}$；配 (11.3.26) 的虚位移约束；仅在 (11.3.29) 二阶形式出现 |
+| Euler parameter system acceleration equation | Euler 参数系统加速度方程 | Eq. 11.3.29；4 块 × 4 块分块方程；未知量 $\ddot{\mathbf r},\ddot{\mathbf p},\boldsymbol\lambda,\boldsymbol\lambda^{\mathbf p}$；总规模 $8n_b+n_h$ |
+| generalized-coordinate-dependent inertia block | 构型相关惯性块 | $4\mathbf G^T\mathbf J'\mathbf G$；(11.3.29) 的 (2,2) 位置；随 $\mathbf p$ 变，每步须重算；LU 分解无法一次到位 |
 
 ---
 

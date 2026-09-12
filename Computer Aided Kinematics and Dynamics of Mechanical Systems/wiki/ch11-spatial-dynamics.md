@@ -12,7 +12,7 @@ sections:
   - "11.5 Inverse Dynamics, Equilibrium Analysis, and Reaction Forces in Joints"
   - "11.6 Numerical Considerations in Solving Spatial Differential-Algebraic Equations of Motion"
 created: 2026-05-19
-last_updated: 2026-05-19
+last_updated: 2026-09-12
 ---
 
 # Chapter 11: Dynamics of Spatial Systems
