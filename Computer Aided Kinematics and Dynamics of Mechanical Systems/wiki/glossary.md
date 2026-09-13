@@ -456,6 +456,40 @@ last_updated: 2026-09-13
 | Euler parameter system acceleration equation | Euler 参数系统加速度方程 | Eq. 11.3.29；4 块 × 4 块分块方程；未知量 $\ddot{\mathbf r},\ddot{\mathbf p},\boldsymbol\lambda,\boldsymbol\lambda^{\mathbf p}$；总规模 $8n_b+n_h$ |
 | generalized-coordinate-dependent inertia block | 构型相关惯性块 | $4\mathbf G^T\mathbf J'\mathbf G$；(11.3.29) 的 (2,2) 位置；随 $\mathbf p$ 变，每步须重算；LU 分解无法一次到位 |
 
+### §12.5 车辆动力学例补充
+
+| English | 中文（统一译名） | 备注 |
+|---------|----------------|------|
+| vehicle | 车辆 | §12.5 例；乘用车（passenger car）；对应 Fig. 1.1.10 |
+| chassis | 底盘 | 体 ①；整车质量惯量的载体（$m=1247.5$ kg） |
+| wheel assembly | 轮总成 | 体 ②–⑤；含轮胎/主轴/拖曳臂等在内的整体，惯量视为刚体 |
+| passenger car | 乘用车 | 与"轿车"等价；不用"载客车" |
+| McPherson strut | 麦弗逊支柱 | 前悬架结构：顶部支柱关节（B-C）＋底部转动-球关节（A-B），Fig. 12.5.2 |
+| lower control arm | 下控制臂 | 麦弗逊悬架的下三角连接臂，A-B 段的物理载体 |
+| strut joint | 支柱关节 | 允许"沿轴平移＋绕轴自转"的 2-DOF 关节；§9.4 的支柱复合关节 |
+| tie rod | 转向拉杆 | 齿条↔轮总成的连杆；用距离约束（Tables 12.5.6）建模 |
+| steering rack | 转向齿条 | 体 ⑥；沿底盘 $x$ 平移，由驱动约束控制转向 |
+| rack and pinion (steering) | 齿条-小齿轮转向 | 齿条 $\hookrightarrow$ 底盘用移动关节 D；转动输入→平动位移 |
+| trailing arm (rear suspension) | 拖曳臂（后悬架） | 后轮总成 ↔ 底盘用转动关节 H、I，转轴与车轴呈 15° |
+| roll-stabilizing bar / anti-roll bar | 横向稳定杆 | 体 ⑦（前）、⑧（后）；绕 J、K 转动；扭转柔度用**平移弹簧**（TSDA）建模 |
+| torsional compliance (of stab. bar) | 稳定杆扭转柔度 | 用悬架下臂→稳定杆端的平移弹簧等效（Table 12.5.7 后 4 行） |
+| Model 1 / Model 2 (vehicle) | 车辆模型 1 / 模型 2 | Model 1 = 6 体（无稳定杆）；Model 2 = 8 体（加两根稳定杆） |
+| damped settling | 阻尼沉降 | 令 $\dot{\mathbf q}_0=\mathbf 0$、跑 DAE 到 $t\to\infty$，用悬架阻尼把振荡吃掉得到静平衡（§12.5.2） |
+| tire vertical force | 轮胎垂直力 | $F_{\text{ver}}=k_t d$；$d$ 由主轴离地高度决定 |
+| tire spring constant | 轮胎径向刚度 | $k_t$；轮胎的等效"径向弹簧" |
+| tire vertical deformation | 轮胎垂直变形 | $d=R_{\text{tire}}^{\text{unloaded}}-h_{\text{spindle}}$；$d\le 0$ ⇒ 脱地 |
+| tire lateral force | 轮胎侧向力 | $F_{\text{lat}}=C_\alpha\alpha$；上限 $\lvert F_{\text{lat}}\rvert\le\mu F_{\text{ver}}$ |
+| tire cornering stiffness | 轮胎侧偏刚度 | $C_\alpha$；N/rad；线性区侧偏角→侧向力的斜率 |
+| tire slip angle | 轮胎侧偏角 | $\alpha=\psi-\psi_v$（Eq. 12.5.1）；轮子朝向 vs 实际速度方向的夹角 |
+| tire yaw / heading angle | 轮胎航向角 / 偏航角 | $\psi=2\cos^{-1}e_0$（Eq. 12.5.2）；车轮平面在地面投影相对全局 $y$ 的夹角 |
+| tire velocity angle | 轮胎速度方向角 | $\psi_v=-\tan^{-1}(v_x/v_y)$（Eq. 12.5.3）；主轴速度矢量相对全局 $y$ 的夹角 |
+| tire-road friction coefficient | 轮胎-路面摩擦系数 | $\mu<1$；夹紧 $\lvert F_{\text{lat}}\rvert\le\mu F_{\text{ver}}$ |
+| friction saturation | 摩擦饱和 | $\lvert F_{\text{lat}}\rvert=\mu F_{\text{ver}}$；进入打滑区，力/侧偏关系断线 |
+| lane change maneuver | 变道机动 | Fig. 12.5.6 曲线 1、2；对称 S 形齿条位移 |
+| circular path maneuver | 圆周机动 | Fig. 12.5.6 曲线 3；阶跃到恒定齿条偏移 ⇒ 恒定曲率路径 |
+| vehicle slip angle | 整车侧偏角 | 车头方向与整车速度方向的夹角；打滑时非零，Fig. 12.5.13 |
+| oversteer / understeer | 过度转向 / 不足转向 | 车辆响应稳态曲率超出/不足几何输入；本节 55 mph 圆周属摩擦耗尽型失控 |
+
 ---
 
 ## 维护说明
