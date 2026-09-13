@@ -12,7 +12,7 @@ sections:
   - "12.5 Dynamics of a Vehicle"
   - "12.6 Dynamic Analysis of a Governor Mechanism"
 created: 2026-05-19
-last_updated: 2026-05-19
+last_updated: 2026-09-13
 ---
 
 # Chapter 12: Spatial Dynamic Modeling and Analysis

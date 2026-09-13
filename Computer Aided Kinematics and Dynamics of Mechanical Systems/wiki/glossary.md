@@ -490,6 +490,29 @@ last_updated: 2026-09-13
 | vehicle slip angle | 整车侧偏角 | 车头方向与整车速度方向的夹角；打滑时非零，Fig. 12.5.13 |
 | oversteer / understeer | 过度转向 / 不足转向 | 车辆响应稳态曲率超出/不足几何输入；本节 55 mph 圆周属摩擦耗尽型失控 |
 
+### §12.6 调速器例补充
+
+| English | 中文（统一译名） | 备注 |
+|---------|----------------|------|
+| governor mechanism | 调速器（机构） | Watt 式；§12.6 例；5 体（Ground/Spindle/Ball 1/Ball 2/Collar）、$nc=35, nh=33$、DOF=2 |
+| Watt governor | Watt 调速器 | 蒸汽机时代经典机械 P 反馈控制器；用离心球臂高度检测转速 |
+| spindle | 主轴 | 体 ②；绕全局 $y$ 轴自转；$m=200$ kg、$I_{y'}=50$ |
+| ball / flyball | 球 / 飞球 | 体 ③④；$m=1$ kg；通过转动关节（REV2/REV3）挂在主轴上、arm 长 0.16 m |
+| ball arm | 球臂 | 从 pivot 到球质心的杆；本例 $L=0.16$ m；稳态与竖直方向夹角 45° |
+| collar (governor) | 套管（调速器） | 体 ⑤；套在主轴上、只沿 $y$ 平移；耦合器把球臂高度传递给它 |
+| coupler (governor) | 耦合器（调速器） | Ball arm 中点 ↔ Collar 之间的距离约束（DIST1/2），$C=0.10922$ m |
+| TSDA (translational spring–damper–actuator) | 平移弹簧-阻尼-作动器 | 主轴 ↔ 套管的力元；本节 $k\in\{1000,2000,3000\}$ N/m、$c=30$ kg/s、$L_0=0.15$ m |
+| free length of spring | 弹簧自由长 | $L_0$；稳态时弹簧变形 $=0$（$y_2-y_5=0.20-0.05=0.15=L_0$），故弹簧不参与稳态力平衡 |
+| dynamic force balancing | 动力力平衡 | §12.6.2 求稳态法：给定 $\omega$、令 $\ddot{\mathbf q}=\mathbf 0,\dot{\mathbf q}=\text{纯自转}$，反解构型；非静平衡（含离心项） |
+| steady-state motion (governor) | 稳态运动（调速器） | $\omega=11.0174$ rad/s、球臂 45°、套管 $y_5=0.05$ m 的匀速转动 |
+| external resistive torque | 外部阻力矩 | $T_e(t)$；机器负载；Fig. 12.6.2 为 $t=1\!\to\!2$ s 斜坡下沉到 $-25$ N·m |
+| compensating engine torque | 补偿发动机力矩 | $T_s$；发动机为抵消 $T_e$ 施加的力矩，$T_s=C\Delta\ell$（Eq. 12.6.1） |
+| torque feedback rate | 力矩反馈率 | $C$；每 1 米套管下沉对应的补偿力矩增量（N·m/m）；本节扫 $C\in\{7500,12500,17500\}$ |
+| collar displacement | 套管位移 | $\Delta\ell$；套管相对稳态位置的偏离（下沉为正） |
+| P (proportional) controller | 比例（P）控制器 | $u=Ke$；本节 $T_s=C\Delta\ell$ 是典型 P 律 |
+| steady-state error | 稳态误差 | $\Delta\ell_\infty=-T_{e,\infty}/C$；P 控制器结构性存在，$\propto 1/C$ |
+| gain-induced instability | 增益诱导失稳 | $C$ 过大时闭环极限环乃至发散；Fig. 12.6.6 中 $C=17500$ 已见持续振荡 |
+
 ---
 
 ## 维护说明
