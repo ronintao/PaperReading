@@ -321,11 +321,11 @@ last_updated: 2026-09-08
 
 | 符号 | 类型 | 含义 |
 |------|------|------|
-| $\tilde{a},\tilde{b},\tilde{c}$ | 几何向量 | 空间中的有向线段 |
-| $a, |\tilde{a}|$ | 标量 | 向量的模 |
-| $\tilde{0}$ | 几何向量 | 零向量 |
-| $\tilde{i},\tilde{j},\tilde{k}$ | 单位向量 | x, y, z 轴方向单位向量 |
-| $\theta(\tilde{a},\tilde{b})$ | 角度 | 两向量夹角 |
+| $\vec{a},\vec{b},\vec{c}$ | 几何向量 | 空间中的有向线段 |
+| $a, |\vec{a}|$ | 标量 | 向量的模 |
+| $\vec{0}$ | 几何向量 | 零向量 |
+| $\vec{i},\vec{j},\vec{k}$ | 单位向量 | x, y, z 轴方向单位向量 |
+| $\theta(\vec{a},\vec{b})$ | 角度 | 两向量夹角 |
 | $\mathbf{a},\mathbf{b},\mathbf{c}$ | 列矩阵 (3×1) | 几何向量的代数表示 |
 | $\tilde{\mathbf{a}}$ | 反对称矩阵 (3×3) | tilde 算子；使 $\mathbf{c}=\tilde{\mathbf{a}}\mathbf{b}$ 表示叉积 |
 
@@ -394,7 +394,7 @@ last_updated: 2026-09-08
 
 | 维度 | 平面（Ch.2/3）| 空间（Ch.9）|
 |------|---------------|-------------|
-| 向量积 | 不存在；旋转用单角度 $\phi$ | 叉积 $\tilde{a}\times\tilde{b}$，tilde 算子 $\tilde{\mathbf{a}}$ |
+| 向量积 | 不存在；旋转用单角度 $\phi$ | 叉积 $\vec{a}\times\vec{b}$，tilde 算子 $\tilde{\mathbf{a}}$ |
 | 姿态自由度 | 1 | 3（9 个方向余弦 − 6 个正交约束）|
 | 大旋转交换性 | 仍可交换（标量加） | **不可交换**（Fig. 9.2.3/9.2.4）|
 | 角速度 | 标量 $\dot\phi$ | 向量 $\boldsymbol{\omega}$，且为准坐标（不是任何向量的时间导数）|
